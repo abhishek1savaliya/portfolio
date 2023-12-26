@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { DNA } from 'react-loader-spinner';
 import { useRouter } from 'next/navigation'
-
+require('dotenv').config()
 
 const page = () => {
 
@@ -29,7 +29,8 @@ const page = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const res = await fetch('http://localhost:3000/api/client', {
+
+            const res = await fetch(`${process.env.BACKEND_URL}/api/client`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
