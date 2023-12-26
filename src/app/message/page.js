@@ -52,13 +52,13 @@ const page = () => {
     };
 
     return (
-        <div className="bg-green-500 min-h-screen p-8">
-            <div className="bg-white p-6 rounded-lg shadow-md max-w-5xl mx-auto">
-                <h1 className="text-2xl mb-4 text-center text-gray-800 dark:text-gray-800">Contact Form</h1>
+        <div className="bg-green-500 min-h-screen p-4 md:p-8">
+            <div className="bg-white p-4 md:p-6 rounded-lg shadow-md max-w-5xl mx-auto">
+                <h1 className="text-lg md:text-2xl mb-4 text-center text-gray-800 dark:text-gray-800">Contact Form</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-bold mb-2" htmlFor="fName">
+                            <label className="text-sm md:text-base text-gray-800 font-bold mb-2" htmlFor="fName">
                                 First Name
                             </label>
                             <input
@@ -72,7 +72,7 @@ const page = () => {
                             />
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-bold mb-2" htmlFor="lName">
+                            <label className="text-sm md:text-base text-gray-800 font-bold mb-2" htmlFor="lName">
                                 Last Name
                             </label>
                             <input
@@ -87,9 +87,8 @@ const page = () => {
                             />
                         </div>
                     </div>
-                    {/* Email Field */}
                     <div className="flex flex-col">
-                        <label className="text-gray-800 text-sm font-bold mb-2" htmlFor="email">
+                        <label className="text-sm md:text-base text-gray-800 font-bold mb-2" htmlFor="email">
                             Email
                         </label>
                         <input
@@ -103,9 +102,8 @@ const page = () => {
                             required
                         />
                     </div>
-                    {/* End of Email Field */}
                     <div className="flex flex-col">
-                        <label className="text-gray-800 text-sm font-bold mb-2" htmlFor="message">
+                        <label className="text-sm md:text-base text-gray-800 font-bold mb-2" htmlFor="message">
                             Message
                         </label>
                         <textarea
@@ -119,7 +117,7 @@ const page = () => {
                         ></textarea>
                     </div>
                     <div className="flex flex-col">
-                        <label className="text-gray-800 text-sm font-bold mb-2" htmlFor="doc">
+                        <label className="text-sm md:text-base text-gray-800 font-bold mb-2" htmlFor="doc">
                             Document (Optional)
                         </label>
                         <input
@@ -131,29 +129,27 @@ const page = () => {
                         />
                     </div>
                     <div className="flex items-center justify-center">
-                        {
-                            loading ? (
-                                <DNA
-                                    visible={true}
-                                    height="80"
-                                    width="80"
-                                    ariaLabel="dna-loading"
-                                    wrapperStyle={{}}
-                                    wrapperClass="dna-wrapper"
-                                />
-                            ) : (<button
+                        {loading ? (
+                            <DNA
+                                visible={true}
+                                height="80"
+                                width="80"
+                                ariaLabel="dna-loading"
+                                wrapperStyle={{}}
+                                wrapperClass="dna-wrapper"
+                            />
+                        ) : (
+                            <button
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 type="submit"
                             >
                                 Send a Message
-                            </button>)
-                        }
-
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>
         </div>
-
     );
 };
 
