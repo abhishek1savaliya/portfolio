@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DNA } from 'react-loader-spinner';
 import { useRouter } from 'next/navigation'
 require('dotenv').config()
@@ -7,8 +7,6 @@ require('dotenv').config()
 const page = () => {
 
     const router = useRouter()
-
-    const URL = 'http://localhost:3000' || 'https://abhishek-lake.vercel.app';
 
     const [formData, setFormData] = useState({
         fName: '',
@@ -31,7 +29,7 @@ const page = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const res = await fetch(`${URL}/api/client`, {
+            const res = await fetch(`https://abhishek-lake.vercel.app/api/client`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +37,7 @@ const page = () => {
                 body: JSON.stringify(formData),
             });
 
-            const data =await res.json()
+            const data = await res.json()
 
             if (data) {
                 setTimeout(() => {
