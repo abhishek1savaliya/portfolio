@@ -20,7 +20,7 @@ export async function POST(req, res) {
 export async function GET() {
     try {
         await connectDb();
-        const allClient = await client.find()
+        const allClient = await client.find().sort({ createdAt: -1 })
 
         const totalCount = await client.countDocuments({});
 

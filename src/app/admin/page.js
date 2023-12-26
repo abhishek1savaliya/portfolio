@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bars } from 'react-loader-spinner';
+import moment from 'moment';
+
 
 const Page = () => {
   const [client, setClient] = useState([]);
@@ -16,11 +18,10 @@ const Page = () => {
         },
       });
       setClient(response.data.data);
-      setTimeout(()=>{
+      setTimeout(() => {
         setLoading(false);
-      },4000)
-      
-     
+      }, 2000)
+
     } catch (err) {
       setLoading(false);
     }
@@ -36,17 +37,19 @@ const Page = () => {
         <h1 className="text-3xl font-bold mb-6 text-white">User Data</h1>
         <p className="mb-6 text-white text-3xl flex font-semibold items-center justify-center">Total Count: {client.length}</p>
         <div className="overflow-x-auto">
-
           {
-            loading ? (<div className='flex items-center justify-center'><Bars
-            height="80"
-            width="80"
-            color="#ffffff"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            /></div>) : (<table className="min-w-full bg-white border-collapse border border-gray-300">
+            loading ? (<div className='flex items-center justify-center'>
+              <Bars
+              height="80"
+              width="80"
+              color="#ffffff"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+            
+            </div>) : (<table className="min-w-full bg-white border-collapse border border-gray-300">
               <thead>
                 <tr>
                   <th className="border bg-gray-200 px-6 py-3">ID</th>
@@ -70,23 +73,22 @@ const Page = () => {
                     <td className="border px-6 py-4">
                       {user.doc ? (
                         <a href={user.doc} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                          View Document
+                          View
                         </a>
                       ) : (
                         'N/A'
                       )}
                     </td>
-                    <td className="border px-6 py-4">{new Date(user.createdAt).toLocaleString()}</td>
+
+                    <td className="border px-6 py-4">{moment(user.createdAt).fromNow()}, {moment(user.createdAt).format('hh:mm A')} {moment(user.createdAt).format('MM/DD/YYYY')}</td>
+
                   </tr>
                 ))}
               </tbody>
 
             </table>)
           }
-
-
         </div>
-
       </div>
     </div>
   );
