@@ -12,7 +12,7 @@ const Profile = () => {
   const router = useRouter()
 
   return (
-    <div className="bg-green-500 min-h-screen p-8">
+    <div className="bg-green-500 min-h-screen p-4 md:p-8">
       <Head>
         <title className="text-purple-600">Abhishek Savaliya - MERN Stack Developer</title>
         <meta name="description" content="Abhishek Savaliya's profile as a MERN Stack Developer from Surat, Gujarat." />
@@ -24,7 +24,7 @@ const Profile = () => {
         <link rel="canonical" href="https://yourwebsite.com/profile" />
       </Head>
 
-      <div className="bg-lime-200 p-6 rounded-lg shadow-md max-w-5xl mx-auto">
+      <div className="bg-lime-200 p-4 md:p-6 rounded-lg shadow-md max-w-5xl mx-auto">
         <div className="flex justify-center mb-6">
           <img
             src="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg"
@@ -96,13 +96,17 @@ const Profile = () => {
         <p className="text-yellow-600">Code Unnati: AI, IoT & ERP 2022-2023</p>
         <p className="text-yellow-600">Getting Started with Web Development - Record of Achievement</p>
 
-        <div className="mt-6" >
-          <button className="bg-blue-600  hover:bg-black text-white font-bold py-2 px-4 rounded w-96border-2 w-96" onClick={()=>{
-            router.push('/message')
-          }}>
-       Message Me
-          </button>
-        </div>
+        <div className="mt-6 flex justify-center items-center">
+    <button 
+        className="bg-blue-600  hover:bg-black text-white font-bold py-2 px-4 rounded w-full sm:w-64 md:w-72 lg:w-80 xl:w-96 border-2"
+        onClick={() => {
+            router.push('/message');
+        }}
+    >
+        Message Me
+    </button>
+</div>
+
       </div>
     </div>
 

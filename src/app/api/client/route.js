@@ -7,7 +7,6 @@ export async function POST(req, res) {
     try {
         await connectDb();
 
-        console.log("hello World")
         const { fName, lName, email, message, doc } = await req.json();
 
         const c = new client({ fName, lName, email, message, doc })
@@ -21,7 +20,7 @@ export async function POST(req, res) {
 
 export async function GET() {
     try {
-        connectDb();
+        await connectDb();
         const allClient = await client.find()
 
         const totalCount = await client.countDocuments({});
