@@ -5,7 +5,8 @@ require('dotenv').config()
 
 export async function POST(req, res) {
     try {
-        connectDb()
+        await connectDb();
+
         console.log("hello World")
         const { fName, lName, email, message, doc } = await req.json();
 
@@ -20,7 +21,7 @@ export async function POST(req, res) {
 
 export async function GET() {
     try {
-        connectDb()
+        connectDb();
         const allClient = await client.find()
 
         const totalCount = await client.countDocuments({});
