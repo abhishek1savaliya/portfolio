@@ -1,7 +1,6 @@
 'use client'
 import React from 'react';
 import Head from 'next/head';
-import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -49,7 +48,7 @@ const Profile = () => {
           </p>
           <p className="text-blue-600">
             <FontAwesomeIcon icon={faLinkedin} className="text-base inline-block align-middle mr-2" height={25} />
-            <a href="https://linkedin.com/in/abhishek-savaliya" target="_blank" rel="noopener noreferrer" className="text-indigo-600">
+            <a href="https://linkedin.com/in/abhishek-savaliya-22547b200" target="_blank" rel="noopener noreferrer" className="text-blue-600">
               linkedin.com/in/abhishek-savaliya
             </a>
           </p>
@@ -97,15 +96,15 @@ const Profile = () => {
         <p className="text-yellow-600">Getting Started with Web Development - Record of Achievement</p>
 
         <div className="mt-6 flex justify-center items-center">
-    <button 
-        className="bg-blue-600  hover:bg-black text-white font-bold py-2 px-4 rounded w-full sm:w-64 md:w-72 lg:w-80 xl:w-96 border-2"
-        onClick={() => {
-            router.push('/message');
-        }}
-    >
-        Message Me
-    </button>
-</div>
+          <button
+            className="bg-blue-600  hover:bg-black text-white font-bold py-2 px-4 rounded w-full sm:w-64 md:w-72 lg:w-80 xl:w-96 border-2"
+            onClick={() => {
+              router.push('/message');
+            }}
+          >
+            Message Me
+          </button>
+        </div>
 
       </div>
     </div>
