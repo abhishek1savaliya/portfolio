@@ -1,7 +1,6 @@
 import { connectDb } from '@/helper/db';
 import client from '@/model/client';
 import { NextResponse } from 'next/server';
-require('dotenv').config()
 
 export async function POST(req, res) {
     try {

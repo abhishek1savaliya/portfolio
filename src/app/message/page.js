@@ -1,8 +1,8 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { DNA } from 'react-loader-spinner';
 import { useRouter } from 'next/navigation'
-require('dotenv').config()
+import axios from 'axios';
 
 const page = () => {
 
@@ -29,19 +29,17 @@ const page = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const res = await fetch(`https://abhishek-lake.vercel.app/api/client`, {
-                method: 'POST',
+            const response = await axios.post('/api/client', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
             });
 
-            const data = await res.json()
+            const data = response.data;
 
             if (data) {
                 setTimeout(() => {
-                    setLoading(false)
+                    setLoading(false);
                     router.push('/thanks');
                 }, 2000);
             }
@@ -49,7 +47,7 @@ const page = () => {
         } catch (error) {
             console.error('Error sending data:', error);
         }
-    };
+    }
 
     return (
         <div className="bg-green-500 min-h-screen p-4 md:p-8">
