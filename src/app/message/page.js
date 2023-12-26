@@ -8,6 +8,8 @@ const page = () => {
 
     const router = useRouter()
 
+    const URL = 'http://localhost:3000' || 'https://abhishek-lake.vercel.app';
+
     const [formData, setFormData] = useState({
         fName: '',
         lName: '',
@@ -29,8 +31,7 @@ const page = () => {
         e.preventDefault();
         setLoading(true)
         try {
-
-            const res = await fetch(`${process.env.BACKEND_URL}/api/client`, {
+            const res = await fetch(`${URL}/api/client`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,10 +39,16 @@ const page = () => {
                 body: JSON.stringify(formData),
             });
 
-            setTimeout(() => {
-                setLoading(false)
-                router.push('/thanks');
-            }, 2000);
+            const data = res.json().then((data)=>{
+                console.log(data)
+            })
+
+            if (data) {
+                setTimeout(() => {
+                    setLoading(false)
+                    router.push('/thanks');
+                }, 2000);
+            }
 
         } catch (error) {
             console.error('Error sending data:', error);
