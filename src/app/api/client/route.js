@@ -1,5 +1,6 @@
 import { connectDb } from '@/helper/db';
 import client from '@/model/client';
+import client from '@/model/client';
 import { NextResponse } from 'next/server';
 require('dotenv').config()
 
@@ -18,21 +19,21 @@ export async function POST(req, res) {
     }
 }
 
-// export async function GET() {
-//     try {
-//         const users = await User.find().select("-password") ;
+export async function GET() {
+    try {
+        const allClient = await client.find()
 
-//         const totalCount = await User.countDocuments({});
+        const totalCount = await client.countDocuments({});
 
-//         return NextResponse.json({
-//             data: users,
-//             totalCount: totalCount,
-//         });
-//     } catch (err) {
-//         return NextResponse.json({
-//             message: "Failed to get users"
-//         });
-//     }
-// }
+        return NextResponse.json({
+            data: allClient,
+            totalCount: totalCount,
+        });
+    } catch (err) {
+        return NextResponse.json({
+            message: "Failed to get users"
+        });
+    }
+}
 
 

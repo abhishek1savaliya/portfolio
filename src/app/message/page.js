@@ -39,9 +39,7 @@ const page = () => {
                 body: JSON.stringify(formData),
             });
 
-            const data = res.json().then((data)=>{
-                console.log(data)
-            })
+            const data =await res.json()
 
             if (data) {
                 setTimeout(() => {
