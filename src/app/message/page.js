@@ -44,8 +44,6 @@ const page = () => {
         formData['doc'] = null
     },[fileSizeError])
 
-    formData)
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
