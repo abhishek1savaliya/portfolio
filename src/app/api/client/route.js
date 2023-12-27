@@ -18,7 +18,6 @@ firebase.initializeApp(firebaseConfig);
 
 export async function POST(req, res) {
     try {
-        await connectDb();
 
         let transformedData = {};
 
@@ -35,6 +34,8 @@ export async function POST(req, res) {
         else {
             transformedData['doc'] = '';
         }
+
+        await connectDb();
 
         const clientData = new client(transformedData)
         clientData.save()
