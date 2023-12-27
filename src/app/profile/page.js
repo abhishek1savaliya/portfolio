@@ -14,10 +14,9 @@ const Profile = () => {
   const handleMessage = () => {
     setLoading(true)
     setTimeout(() => {
-
       router.push('/message')
       setLoading(false)
-    }, 500)
+    }, 1500)
   }
 
   return (
