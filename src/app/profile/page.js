@@ -63,13 +63,11 @@ const Profile = () => {
           </p>
           <p className="text-black-600">
             <FontAwesomeIcon icon={faGithub} className="text-base inline-block align-middle mr-2" height={25} />
-            <a href="https://https://github.com/abhishek1savaliya" target="_blank" rel="noopener noreferrer" className="text-black-600">
+            <a href="https://github.com/abhishek1savaliya" target="_blank" rel="noopener noreferrer" className="text-black-600">
               github.com/abhishek1savaliya
             </a>
           </p>
         </div>
-
-
         <p className="text-yellow-800">
           Seeking for an internship/job opportunity with a company that offers a positive atmosphere
           to implement new ideas or technological skills for the betterment of the organization.
