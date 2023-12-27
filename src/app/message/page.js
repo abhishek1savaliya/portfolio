@@ -13,25 +13,42 @@ const page = () => {
         lName: '',
         message: '',
         email: '',
-        doc: ''
+        doc: null
     });
     const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
+        const { name, value, files } = e.target;
+        if (name === 'doc' && files.length > 0) {
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: files[0]
+            }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
     };
+
+    console.log(formData)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
+
         try {
-            const response = await axios.post('/api/client', formData, {
+            const formDataToSend = new FormData();
+
+            // Append all the form data fields
+            Object.keys(formData).forEach(key => {
+                formDataToSend.append(key, formData[key]);
+            });
+
+            const response = await axios.post('/api/client', formDataToSend, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data' 
                 },
             });
 
@@ -40,14 +57,13 @@ const page = () => {
             if (data) {
                 setTimeout(() => {
                     setLoading(false);
-                    router.push('/thanks');
+             
                 }, 2000);
             }
-
         } catch (error) {
             console.error('Error sending data:', error);
         }
-    }
+    };
 
     return (
         <div className="bg-green-500 min-h-screen p-4 md:p-8">
