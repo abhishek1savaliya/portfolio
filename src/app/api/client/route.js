@@ -33,7 +33,7 @@ export async function POST(req, res) {
         transformedData['doc'] = fileUrl
        }
        else{
-        transformedData['doc'] = ''
+        transformedData['doc'] = '';
        }
 
         const clientData = new client(transformedData)

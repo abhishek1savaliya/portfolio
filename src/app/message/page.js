@@ -48,7 +48,7 @@ const page = () => {
 
             const response = await axios.post('/api/client', formDataToSend, {
                 headers: {
-                    'Content-Type': 'multipart/form-data' 
+                    'Content-Type': 'multipart/form-data'
                 },
             });
 
@@ -57,7 +57,7 @@ const page = () => {
             if (data) {
                 setTimeout(() => {
                     setLoading(false);
-             
+                    router.push('/thanks')
                 }, 2000);
             }
         } catch (error) {

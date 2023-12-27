@@ -18,10 +18,7 @@ const Page = () => {
         },
       });
       setClient(response.data.data);
-      setTimeout(() => {
         setLoading(false);
-      }, 2000)
-
     } catch (err) {
       setLoading(false);
     }
