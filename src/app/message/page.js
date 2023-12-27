@@ -63,8 +63,6 @@ const page = () => {
 
             const data = response.data;
 
-            console.log(data)
-
             if (data) {
                 setTimeout(() => {
                     setLoading(false);

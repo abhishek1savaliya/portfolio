@@ -27,7 +27,7 @@ export async function POST(req, res) {
             transformedData[key] = value;
         }
 
-        if ('doc' in transformedData && !(transformedData.doc.size === 0) && transformedData.doc!=='null') {
+        if ('doc' in transformedData && !(transformedData.doc.size === 0) && transformedData.doc !== 'null') {
             const fileUrl = await fileUpload(data.get('doc'))
             transformedData['doc'] = fileUrl
         }
@@ -77,6 +77,30 @@ export async function GET() {
     } catch (err) {
         return NextResponse.json({
             message: "Failed to get users"
+        });
+    }
+}
+
+export async function DELETE(req) {
+    try {
+        await connectDb();
+
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get('id');
+
+        const deletedClient = await client.findByIdAndDelete(id);
+
+        if (deletedClient === null) {
+            return NextResponse.json({
+                message: 'client not exist',
+            });
+        }
+        
+        return NextResponse.json({ message: "delete successfully" });
+
+    } catch (err) {
+        return NextResponse.json({
+            message: "Failed to delete user"
         });
     }
 }

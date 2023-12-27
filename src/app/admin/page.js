@@ -8,7 +8,7 @@ import moment from 'moment';
 const Page = () => {
   const [client, setClient] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const fetchData = async () => {
     try {
       const response = await axios.get('/api/client', {
@@ -28,6 +28,18 @@ const Page = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+
+  const deleteClient = async (id) => {
+
+    try {
+      await axios.delete(`/api/client?id=${id}`);
+      setClient(prevClients => prevClients.filter(item => item._id !== id));
+
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  }
 
   return (
     <div className='bg-green-500 min-h-screen p-4 md:p-8'>
@@ -50,7 +62,6 @@ const Page = () => {
             </div>) : (<table className="min-w-full bg-white border-collapse border border-gray-300">
               <thead>
                 <tr>
-                  <th className="border bg-gray-200 px-6 py-3">ID</th>
                   <th className="border bg-gray-200 px-6 py-3">First Name</th>
                   <th className="border bg-gray-200 px-6 py-3">Last Name</th>
                   <th className="border bg-gray-200 px-6 py-3">Email</th>
@@ -62,8 +73,7 @@ const Page = () => {
 
               <tbody className='items-start'>
                 {client.map((user) => (
-                  <tr key={user._id} className="text-center">
-                    <td className="border px-6 py-4">{user._id}</td>
+                  <tr key={user._id} className="text-center relative group hover:bg-gray-100">
                     <td className="border px-6 py-4">{user.fName}</td>
                     <td className="border px-6 py-4">{user.lName}</td>
                     <td className="border px-6 py-4">{user.email}</td>
@@ -78,12 +88,19 @@ const Page = () => {
                       )}
                     </td>
 
-                    <td className="border px-6 py-4">{moment(user.createdAt).fromNow()}, {moment(user.createdAt).format('hh:mm A')} {moment(user.createdAt).format('MM/DD/YYYY')}</td>
+                    <td className="border px-6 py-4 relative">
+                      <span className="absolute right-0 top-1/2 transform -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100 mr-2">
+                        <button className="bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600" onClick={() => { deleteClient(user._id) }}>
+                          X
+                        </button>
+                      </span>
 
+                      {moment(user.createdAt).fromNow()}, {moment(user.createdAt).format('hh:mm A')} {moment(user.createdAt).format('MM/DD/YYYY')}
+                    </td>
                   </tr>
                 ))}
-              </tbody>
 
+              </tbody>
             </table>)
           }
         </div>
