@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DNA } from 'react-loader-spinner';
 import { useRouter } from 'next/navigation'
 import axios from 'axios';
@@ -16,14 +16,22 @@ const page = () => {
         doc: null
     });
     const [loading, setLoading] = useState(false)
+    const [fileSizeError, setFileSizeError] = useState(null);
 
     const handleChange = (e) => {
+        setFileSizeError(null);
         const { name, value, files } = e.target;
         if (name === 'doc' && files.length > 0) {
-            setFormData(prevData => ({
-                ...prevData,
-                [name]: files[0]
-            }));
+            if ((files[0].size / (1024 * 1024)) > 5) {
+                e.target.value = ''
+                setFileSizeError("You can send only 5 MB of file");
+                return;
+            } else {
+                setFormData(prevData => ({
+                    ...prevData,
+                    [name]: files[0]
+                }));
+            }
         } else {
             setFormData(prevData => ({
                 ...prevData,
@@ -31,6 +39,12 @@ const page = () => {
             }));
         }
     };
+
+    useEffect(()=>{
+        formData['doc'] = null
+    },[fileSizeError])
+
+    formData)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -138,6 +152,7 @@ const page = () => {
                             name="doc"
                             onChange={handleChange}
                         />
+                        {fileSizeError && <p className="text-red-500 text-sm mt-2">{fileSizeError}</p>}
                     </div>
                     <div className="flex items-center justify-center">
                         {loading ? (

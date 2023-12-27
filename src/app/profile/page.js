@@ -4,9 +4,8 @@ import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { TailSpin } from 'react-loader-spinner';
-
 
 const Profile = () => {
   const router = useRouter()
@@ -15,10 +14,10 @@ const Profile = () => {
   const handleMessage = () => {
     setLoading(true)
     setTimeout(() => {
+
       router.push('/message')
       setLoading(false)
     }, 500)
-
   }
 
   return (
