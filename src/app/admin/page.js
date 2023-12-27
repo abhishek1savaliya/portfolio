@@ -8,8 +8,7 @@ import moment from 'moment';
 const Page = () => {
   const [client, setClient] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+  
   const fetchData = async () => {
     try {
       const response = await axios.get('/api/client', {

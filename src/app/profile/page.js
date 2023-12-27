@@ -1,14 +1,25 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
+import { TailSpin } from 'react-loader-spinner';
 
 
 const Profile = () => {
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  const handleMessage = () => {
+    setLoading(true)
+    setTimeout(() => {
+      router.push('/message')
+      setLoading(false)
+    }, 500)
+
+  }
 
   return (
     <div className="bg-green-500 min-h-screen p-4 md:p-8">
@@ -98,11 +109,21 @@ const Profile = () => {
         <div className="mt-6 flex justify-center items-center">
           <button
             className="bg-blue-600  hover:bg-black text-white font-bold py-2 px-4 rounded w-full sm:w-64 md:w-72 lg:w-80 xl:w-96 border-2"
-            onClick={() => {
-              router.push('/message');
-            }}
+            onClick={handleMessage}
           >
-            Message Me
+            {
+              loading ? (<div className=' flex justify-center'><TailSpin
+                visible={true}
+                height="35"
+                width="35"
+                color="#ffffff"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass=""
+              /></div>) : "Message Me"
+            }
+
           </button>
         </div>
 
