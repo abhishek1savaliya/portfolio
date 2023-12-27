@@ -17,8 +17,10 @@ const Page = () => {
           'Content-Type': 'application/json',
         },
       });
-      setClient(response.data.data);
+      if (response) {
+        setClient(response.data.data);
         setLoading(false);
+      }
     } catch (err) {
       setLoading(false);
     }
@@ -37,15 +39,15 @@ const Page = () => {
           {
             loading ? (<div className='flex items-center justify-center'>
               <Bars
-              height="80"
-              width="80"
-              color="#ffffff"
-              ariaLabel="bars-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-            />
-            
+                height="80"
+                width="80"
+                color="#ffffff"
+                ariaLabel="bars-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+
             </div>) : (<table className="min-w-full bg-white border-collapse border border-gray-300">
               <thead>
                 <tr>

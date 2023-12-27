@@ -28,18 +28,18 @@ export async function POST(req, res) {
             transformedData[key] = value;
         }
 
-       if('doc' in transformedData && !(transformedData.doc.size===0)){
-        const fileUrl = await fileUpload(data.get('doc'))
-        transformedData['doc'] = fileUrl
-       }
-       else{
-        transformedData['doc'] = '';
-       }
+        if ('doc' in transformedData && !(transformedData.doc.size === 0) && transformedData.doc!=='null') {
+            const fileUrl = await fileUpload(data.get('doc'))
+            transformedData['doc'] = fileUrl
+        }
+        else {
+            transformedData['doc'] = '';
+        }
 
         const clientData = new client(transformedData)
         clientData.save()
 
-        return NextResponse.json(clientData,{ status: 201 });
+        return NextResponse.json(clientData, { status: 201 });
     } catch (err) {
         return NextResponse.json({ message: 'Error in add user' }, { status: 401 });
     }

@@ -41,7 +41,6 @@ const page = () => {
         try {
             const formDataToSend = new FormData();
 
-            // Append all the form data fields
             Object.keys(formData).forEach(key => {
                 formDataToSend.append(key, formData[key]);
             });
@@ -53,6 +52,8 @@ const page = () => {
             });
 
             const data = response.data;
+
+            console.log(data)
 
             if (data) {
                 setTimeout(() => {
