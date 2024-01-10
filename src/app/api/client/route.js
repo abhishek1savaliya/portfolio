@@ -57,7 +57,7 @@ const fileUpload = async (file) => {
         await uploadBytes(storageRef, file)
 
         const fileUrl = await getDownloadURL(storageRef)
-        
+
         return fileUrl;
 
     } catch (error) {
@@ -98,6 +98,21 @@ export async function DELETE(req) {
                 message: 'client not exist',
             });
         }
+
+        // const docUrl = deletedClient.doc;
+
+        // if (docUrl) {
+
+        //     console.log("esadfv")
+        //     const filename = docUrl.split('/').pop();
+
+        //     const storage = getStorage();
+
+        //     const storageRef = ref(storage, `files/${filename}`);
+
+        //     const lalo = await deleteObject(storageRef);
+
+        // }
 
         return NextResponse.json({ message: "delete successfully" });
 
