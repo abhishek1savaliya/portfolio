@@ -48,15 +48,18 @@ export async function POST(req, res) {
 
 const fileUpload = async (file) => {
 
+    const fileName = file.name
+
     const storage = getStorage();
-    const storageRef = ref(storage, `files/${file.name}`);
+    const storageRef = ref(storage, `files/${fileName}`);
 
     try {
-        uploadBytes(storageRef, file)
+        await uploadBytes(storageRef, file)
 
         const fileUrl = await getDownloadURL(storageRef)
-
+        
         return fileUrl;
+
     } catch (error) {
         console.error("Error uploading file:", error);
     }
@@ -95,7 +98,7 @@ export async function DELETE(req) {
                 message: 'client not exist',
             });
         }
-        
+
         return NextResponse.json({ message: "delete successfully" });
 
     } catch (err) {

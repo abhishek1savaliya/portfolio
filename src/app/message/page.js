@@ -22,7 +22,7 @@ const page = () => {
         setFileSizeError(null);
         const { name, value, files } = e.target;
         if (name === 'doc' && files.length > 0) {
-            if ((files[0].size / (1024 * 1024)) > 5) {
+            if ((files[0].size / (1024 * 1024)) < 5) {
                 e.target.value = ''
                 setFileSizeError("You can send only 5 MB of file");
                 return;
