@@ -41,7 +41,7 @@ const Profile = () => {
           />
         </div>
         <h1 className="text-3xl font-semibold text-purple-600 mb-4">ABHISHEK SAVALIYA</h1>
-        <p className="text-lg text-red-600 font-semibold mb-2">MERN Stack Developer</p>
+        {/* <p className="text-lg text-red-600 font-semibold mb-2">MERN Stack Developer</p> */}
         <p className="text-sm text-green-700 font-semibold mb-4">Surat, Gujarat</p>
 
         <div className="mb-4">
@@ -68,34 +68,53 @@ const Profile = () => {
             </a>
           </p>
         </div>
-        <p className="text-yellow-800">
+        {/* <p className="text-yellow-800">
           Seeking for an internship/job opportunity with a company that offers a positive atmosphere
           to implement new ideas or technological skills for the betterment of the organization.
-        </p>
+        </p> */}
 
         <h2 className="text-2xl font-semibold mt-6 text-red-600 mb-4">RELEVANT SKILLS</h2>
         <ul className="list-disc pl-5 text-green-600">
-          <li>MERN Stack (MongoDB, Express.js, React.js, Next.js)</li>
-          <li>Node.js</li>
+          <li>MERN Stack (MongoDB, Express.js, React.js,Node.js)</li>
+          <li>Next.js</li>
           <li>Version Control: Git</li>
           <li>C, Java, Python (BASIC)</li>
           <li>CSS, HTML, JavaScript</li>
           <li>MongoDB, MySQL (Basic)</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold mt-6 text-purple-600 mb-4">EDUCATION HISTORY</h2>
+        {/* <h2 className="text-2xl font-semibold mt-6 text-purple-600 mb-4">EDUCATION HISTORY</h2>
         <p className="text-yellow-600">Bachelor Of Engineering, Computer Engineering</p>
         <p className="text-yellow-600">Shri Swami Atmanand Saraswati Institute Of Technology - (GTU)</p>
-        <p className="text-yellow-600">2020 - Pursuing 4th Year</p>
+        <p className="text-yellow-600">2020 - Pursuing 4th Year</p> */}
 
-        <h2 className="text-2xl font-semibold mt-6 text-red-600 mb-4">WORK EXPERIENCE</h2>
+        {/* New */}
+        <h2 className="text-2xl font-semibold mt-6 text-purple-700 mb-4">EDUCATION HISTORY</h2>
+        <div className='mb-3'>
+          <p class="text-blue-800">Bachelor Of Engineering, Computer Engineering</p>
+          <p class="text-blue-800">Shri Swami Atmanand Saraswati Institute Of Technology - (GTU)</p>
+          <p class="text-blue-800">2020 - Pursuing 4th Year</p>
+        </div>
+
+        <div className='mb-3'>
+          <p class="text-green-800">Higher Secondary Certificate (HSC)</p>
+          <p class="text-green-800">P.P. Savani Vidhya Bhavan(GSEB) 2020</p>
+        </div>
+
+        <div>
+          <p class="text-purple-800">Secondary School Certificate (SSC)</p>
+          <p class="text-purple-800">Ankur Vidhya Vihar (GSEB) 2018</p>
+        </div>
+
+
+        {/* <h2 className="text-2xl font-semibold mt-6 text-red-600 mb-4">WORK EXPERIENCE</h2>
         <p className="text-yellow-600"><strong>Logic Space, Surat, Gujarat</strong></p>
         <p className="text-teal-600 mb-2">July 2022 to Present</p>
         <ul className="list-disc pl-5 text-green-600">
           <li>Developed a salary management backend in Node.js, highlighting employee outstanding amounts.</li>
           <li>Created the backend for "Swasthya Mandir" patient diagnoses app using Node.js.</li>
           <li>Assisted frontend team as needed for integration and support.</li>
-        </ul>
+        </ul> */}
 
         <h2 className="text-2xl font-semibold mt-6 text-purple-600 mb-4">PROJECTS</h2>
         <ul className="list-disc pl-5 text-green-600">
@@ -110,8 +129,8 @@ const Profile = () => {
         </ul>
 
         <h2 className="text-2xl font-semibold mt-6 text-red-600 mb-4">CERTIFICATION</h2>
-        <p className="text-yellow-600">Code Unnati: AI, IoT & ERP 2022-2023</p>
-        <p className="text-yellow-600">Getting Started with Web Development - Record of Achievement</p>
+        <p className="text-yellow-600"> <a href="https://drive.google.com/file/d/1RGoRkV0etHRgD-a7er9tvYqu0gKoHiRs" target="_blank" >Code Unnati: AI, IoT & ERP 2022-2023</a> </p>
+        <p className="text-yellow-600"><a href="https://www.credly.com/badges/1c00d03d-5113-4dc1-973d-3f3d5937e367" target="_blank" >Getting Started with Web Development - Record of Achievement   </a></p>
 
         <div className="mt-6 flex justify-center items-center">
           <button
