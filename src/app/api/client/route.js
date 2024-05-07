@@ -2,7 +2,7 @@ import { connectDb } from '@/helper/db';
 import client from '@/model/client';
 import { NextResponse } from 'next/server';
 const firebase = require('firebase/app')
-const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage')
+const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -47,17 +47,19 @@ export async function POST(req, res) {
 }
 
 const fileUpload = async (file) => {
+    const fileName = file.name.replace(/\s+/g, '');
 
-    const fileName = file.name
+    const currentDate = new Date().toISOString().replace(/[-T:\.Z]/g, ''); 
+    const extension = fileName.split('.').pop();
+
+    const newFileName = `${fileName.split('.').slice(0, -1).join('_')}_${currentDate}.${extension}`;
 
     const storage = getStorage();
-    const storageRef = ref(storage, `files/${fileName}`);
+    const storageRef = ref(storage, `files/${newFileName}`);
 
     try {
-        await uploadBytes(storageRef, file)
-
-        const fileUrl = await getDownloadURL(storageRef)
-
+        await uploadBytes(storageRef, file);
+        const fileUrl = await getDownloadURL(storageRef);
         return fileUrl;
 
     } catch (error) {
@@ -87,40 +89,35 @@ export async function GET() {
 export async function DELETE(req) {
     try {
         await connectDb();
-
         const { searchParams } = new URL(req.url);
         const id = searchParams.get('id');
-
         const deletedClient = await client.findByIdAndDelete(id);
 
-        if (deletedClient === null) {
+        if (!deletedClient) {
             return NextResponse.json({
-                message: 'client not exist',
+                message: 'Client does not exist',
             });
         }
 
-        // const docUrl = deletedClient.doc;
+        const docUrl = deletedClient.doc;
 
-        // if (docUrl) {
+        if (docUrl) {
+            const encodedFilename = docUrl.split('/').pop();
+            const decodedFilename = decodeURIComponent(encodedFilename.split('?')[0]);
 
-        //     console.log("esadfv")
-        //     const filename = docUrl.split('/').pop();
+            const storage = getStorage();
+            const storageRef = ref(storage, `${decodedFilename}`);
 
-        //     const storage = getStorage();
+            await getDownloadURL(storageRef);
+            await deleteObject(storageRef);
+        }
 
-        //     const storageRef = ref(storage, `files/${filename}`);
-
-        //     const lalo = await deleteObject(storageRef);
-
-        // }
-
-        return NextResponse.json({ message: "delete successfully" });
-
-    } catch (err) {
+        return NextResponse.json({ message: "Deleted successfully" });
+        
+    } catch (error) {
+        console.error("Error:", error);
         return NextResponse.json({
             message: "Failed to delete user"
         });
     }
 }
-
-
