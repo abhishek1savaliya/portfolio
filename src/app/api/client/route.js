@@ -38,7 +38,7 @@ export async function POST(req, res) {
         await connectDb();
 
         const clientData = new client(transformedData)
-        clientData.save()
+        await clientData.save()
 
         return NextResponse.json(clientData, { status: 201 });
     } catch (err) {
@@ -49,7 +49,7 @@ export async function POST(req, res) {
 const fileUpload = async (file) => {
     const fileName = file.name.replace(/\s+/g, '');
 
-    const currentDate = new Date().toISOString().replace(/[-T:\.Z]/g, ''); 
+    const currentDate = new Date().toISOString().replace(/[-T:\.Z]/g, '');
     const extension = fileName.split('.').pop();
 
     const newFileName = `${fileName.split('.').slice(0, -1).join('_')}_${currentDate}.${extension}`;
@@ -113,7 +113,7 @@ export async function DELETE(req) {
         }
 
         return NextResponse.json({ message: "Deleted successfully" });
-        
+
     } catch (error) {
         console.error("Error:", error);
         return NextResponse.json({
