@@ -3,10 +3,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bars } from 'react-loader-spinner';
 import moment from 'moment';
+import { ClipLoader } from "react-spinners";
 
 
 const Page = () => {
   const [client, setClient] = useState([]);
+  const [info, setInfo] = useState({
+    addOps: 0,
+    deleteOps: 0,
+    totalOps: 0,
+  })
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -18,6 +24,7 @@ const Page = () => {
       });
       if (response) {
         setClient(response.data.data);
+        setInfo(response.data.OpsInfo)
         setLoading(false);
       }
     } catch (err) {
@@ -40,12 +47,20 @@ const Page = () => {
       console.error('Error deleting item:', error);
     }
   }
+  const infoLoader = (<>&nbsp;<ClipLoader color="#ffffff" size={14} /></>)
 
   return (
     <div className='bg-green-500 min-h-screen p-4 md:p-8'>
       <div className="container mx-auto p-6 bg-blue-500 rounded-lg shadow-md ">
         <h1 className="text-3xl font-bold mb-6 text-white">User Data</h1>
-        <p className="mb-6 text-white text-3xl flex font-semibold items-center justify-center">Total Count: {client.length}</p>
+
+        <p className="mb-6 text-white text-xs font-semibold">
+          <span className="mr-4">Total Message Count: <span>{loading ? infoLoader : client.length}</span></span>
+          <span className="mr-4">Total add Operation: <span>{loading ? infoLoader : info.addOps}</span></span>
+          <span className="mr-4">Total Delete Operation: <span>{loading ? infoLoader : info.deleteOps}</span></span>
+          <span>Total Operation: <span>{loading ? infoLoader : info.totalOps}</span></span>
+        </p>
+
         <div className="overflow-x-auto">
           {
             loading ? (<div className='flex items-center justify-center'>

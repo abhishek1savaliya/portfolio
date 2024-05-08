@@ -1,5 +1,6 @@
 import { connectDb } from '@/helper/db';
 import client from '@/model/client';
+import information from '@/model/information';
 import { NextResponse } from 'next/server';
 const firebase = require('firebase/app')
 const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
@@ -40,7 +41,7 @@ const fileUpload = async (file) => {
 export async function POST(req, res) {
     try {
         await connectDb();
-        
+
         let transformedData = {};
 
         const data = await req.formData();
@@ -60,6 +61,19 @@ export async function POST(req, res) {
         const clientData = new client(transformedData)
         await clientData.save()
 
+        const currentInfo = await information.findOne();
+
+        if (currentInfo === null) {
+            const informationData = new information({
+                addOps: 1,
+                deleteOps: 0
+            });
+            await informationData.save();
+        } else {
+            currentInfo.addOps = currentInfo.addOps + 1;
+            await currentInfo.save();
+        }
+
         return NextResponse.json(clientData, { status: 201 });
     } catch (err) {
         return NextResponse.json({ message: 'Error in add user' }, { status: 401 });
@@ -74,9 +88,15 @@ export async function GET() {
 
         const totalCount = await client.countDocuments({});
 
+        const currentInfo = await information.findOne();
+
         return NextResponse.json({
             data: allClient,
-            totalCount: totalCount,
+            OpsInfo: {
+                addOps: currentInfo.addOps,
+                deleteOps: currentInfo.deleteOps,
+                totalOps: currentInfo.deleteOps + currentInfo.addOps,
+            }
         });
 
     } catch (err) {
@@ -91,12 +111,26 @@ export async function DELETE(req) {
         await connectDb();
         const { searchParams } = new URL(req.url);
         const id = searchParams.get('id');
+
         const deletedClient = await client.findByIdAndDelete(id);
 
         if (!deletedClient) {
             return NextResponse.json({
                 message: 'Client does not exist',
             });
+        }
+
+        const currentInfo = await information.findOne();
+
+        if (currentInfo === null) {
+            const informationData = new information({
+                addOps: 0,
+                deleteOps: 1
+            });
+            await informationData.save();
+        } else {
+            currentInfo.deleteOps = currentInfo.deleteOps + 1;
+            await currentInfo.save();
         }
 
         const docUrl = deletedClient.doc;
