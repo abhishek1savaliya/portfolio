@@ -5,32 +5,14 @@ import moment from 'moment-timezone';
 
 export async function GET() {
     try {
-        await connectDb();
-
         const today = moment().tz('Asia/Kolkata');
-        const currentDay = today.date();
-        const currentMonth = today.month() + 1;
-        const currentYear = today.year();
-
-        const specificDate = moment(`${currentYear}-${currentMonth}-${currentDay}`, 'YYYY-MM-DD');
+        const specificDate = moment(today.format('YYYY-MM-DD'), 'YYYY-MM-DD');
         const startOfSpecificDate = specificDate.clone().startOf('day');
         const endOfSpecificDate = specificDate.clone().endOf('day');
 
-        let visitorForSpecificDate = await Visitor.findOne({
-            createdAt: {
-                $gte: startOfSpecificDate.toDate(),
-                $lte: endOfSpecificDate.toDate()
-            }
-        });
+        await connectDb();
 
-        if (!visitorForSpecificDate) {
-            visitorForSpecificDate = new Visitor({
-                day: 0
-            });
-            await visitorForSpecificDate.save();
-        }
-
-        const data = await Visitor.findOneAndUpdate(
+        let visitorForSpecificDate = await Visitor.findOneAndUpdate(
             {
                 createdAt: {
                     $gte: startOfSpecificDate.toDate(),
@@ -38,15 +20,13 @@ export async function GET() {
                 }
             },
             { $inc: { day: 1 } },
-            { new: true }
+            { new: true, upsert: true, setDefaultsOnInsert: true }
         );
 
-        return NextResponse.json({ totalVisitor: data.day });
+        return NextResponse.json({ totalVisitor: visitorForSpecificDate.day });
 
     } catch (err) {
         console.error(err);
-        return NextResponse.json({
-            message: "Failed to get users"
-        });
+        return NextResponse.json({ message: "Failed to get users" });
     }
 }
