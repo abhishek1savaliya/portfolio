@@ -93,11 +93,12 @@ export async function GET() {
         return NextResponse.json({
             data: allClient,
             OpsInfo: {
-                addOps: currentInfo.addOps,
-                deleteOps: currentInfo.deleteOps,
-                totalOps: currentInfo.deleteOps + currentInfo.addOps,
+                addOps: currentInfo ? currentInfo.addOps : 0,
+                deleteOps: currentInfo ? currentInfo.deleteOps : 0,
+                totalOps: (currentInfo ? currentInfo.deleteOps : 0) + (currentInfo ? currentInfo.addOps : 0),
             }
         });
+
 
     } catch (err) {
         return NextResponse.json({
