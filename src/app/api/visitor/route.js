@@ -23,7 +23,7 @@ export async function GET() {
             { new: true, upsert: true, setDefaultsOnInsert: true }
         );
 
-        return NextResponse.json({ totalVisitor: visitorForSpecificDate.day });
+        return NextResponse.json({ totalVisitor: 0 });
 
     } catch (err) {
         console.error(err);
