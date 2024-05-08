@@ -1,15 +1,38 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { useRouter } from 'next/navigation'
 import { TailSpin } from 'react-loader-spinner';
+import { FaEye } from "react-icons/fa";
+import axios from 'axios';
 
 const Profile = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [visitors, setVisitors] = useState(0)
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/visitor', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response && response.data.totalVisitor) {
+        setVisitors(response.data.totalVisitor);
+      }
+    } catch (err) {
+      setVisitors(0)
+    }
+  };
+
+  useLayoutEffect(() => {
+    console.log('useLayoutEffect called');
+    fetchData();
+  }, []);
 
   const handleMessage = () => {
     setLoading(true)
@@ -33,16 +56,24 @@ const Profile = () => {
       </Head>
 
       <div className="bg-lime-200 p-4 md:p-6 rounded-lg shadow-md max-w-5xl mx-auto">
-        <div className="flex justify-center mb-6">
-          <img
-            src="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg"
-            alt="Abhishek Savaliya"
-            className="w-32 h-32 rounded-full border-4 border-blue-600"
-          />
+
+        <div class="flex">
+          <div class="text-center items-center flex-1">
+            <img src="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg" alt="Abhishek Savaliya" class="w-32 h-32 rounded-full border-4 border-blue-600 mx-auto" />
+          </div>
+          <div class="inline-flex">
+            <FaEye className="mr-2 mt-2" />
+            <p className='mt-1'>{visitors/2}</p>
+          </div>
         </div>
+
         <h1 className="text-3xl font-semibold text-purple-600 mb-4">ABHISHEK SAVALIYA</h1>
+
+
         {/* <p className="text-lg text-red-600 font-semibold mb-2">MERN Stack Developer</p> */}
         <p className="text-sm text-green-700 font-semibold mb-4">Surat, Gujarat</p>
+
+
 
         <div className="mb-4">
           <p className="text-blue-600">
