@@ -12,7 +12,7 @@ export async function GET() {
 
         await connectDb();
 
-        let visitorForSpecificDate = await Visitor.findOneAndUpdate(
+        const visitorForSpecificDate = await Visitor.findOneAndUpdate(
             {
                 createdAt: {
                     $gte: startOfSpecificDate.toDate(),
@@ -23,7 +23,7 @@ export async function GET() {
             { new: true, upsert: true, setDefaultsOnInsert: true }
         );
 
-        return NextResponse.json({ totalVisitor: 0 });
+        return NextResponse.json({ totalVisitor: visitorForSpecificDate.day });
 
     } catch (err) {
         console.error(err);
