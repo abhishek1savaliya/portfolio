@@ -105,9 +105,16 @@ const Page = () => {
 
                     <td className="border px-6 py-4 relative">
                       <span className="absolute right-0 top-1/2 transform -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100 mr-2">
-                        <button className="bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600" onClick={() => { deleteClient(user._id) }}>
+                        <button
+                          className="bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600"
+                          onClick={() => {
+                            deleteClient(user._id);
+                            fetchData();
+                          }}
+                        >
                           X
                         </button>
+
                       </span>
 
                       {moment(user.createdAt).fromNow()}, {moment(user.createdAt).format('hh:mm A')} {moment(user.createdAt).format('MM/DD/YYYY')}
