@@ -30,7 +30,7 @@ export async function GET() {
             await visitorForSpecificDate.save();
         }
 
-       const data = await Visitor.findOneAndUpdate(
+        const data = await Visitor.findOneAndUpdate(
             {
                 createdAt: {
                     $gte: startOfSpecificDate.toDate(),
@@ -41,7 +41,7 @@ export async function GET() {
             { new: true }
         );
 
-        return NextResponse.json({ totalVisitor: data.day });
+        return NextResponse.json({ totalVisitor: Math.trunc(data.day / 2) });
 
     } catch (err) {
         console.error(err);

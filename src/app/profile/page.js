@@ -63,7 +63,7 @@ const Profile = () => {
           </div>
           <div class="inline-flex">
             <FaEye className="mr-2 mt-2" />
-            <p className='mt-1'>{visitors/2}</p>
+            <p className='mt-1'>{visitors}</p>
           </div>
         </div>
 
