@@ -8,10 +8,12 @@ import { useRouter } from 'next/navigation'
 import { TailSpin } from 'react-loader-spinner';
 import { FaEye } from "react-icons/fa";
 import axios from 'axios';
+import { ClipLoader } from "react-spinners";
 
 const Profile = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [viewLoading, setViewLoading] = useState(true)
   const [visitors, setVisitors] = useState(0)
 
   const fetchData = async () => {
@@ -21,8 +23,9 @@ const Profile = () => {
           'Content-Type': 'application/json',
         },
       });
-      if (response && response.data.totalVisitor) {
+      if (response) {
         setVisitors(response.data.totalVisitor);
+        setViewLoading(false)
       }
     } catch (err) {
       setVisitors(0)
@@ -30,15 +33,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const fetchVisitorData = async () => {
-      await fetchData();
-    };
-    fetchVisitorData();
-
-    return () => {
-      setLoading(false);
-    };
+    fetchData();
   }, []);
+
+  const infoLoader = (<>&nbsp;<ClipLoader color="#000000" size={18} /></>)
 
   const handleMessage = () => {
     setLoading(true)
@@ -69,7 +67,7 @@ const Profile = () => {
           </div>
           <div className="inline-flex">
             <FaEye className="mr-2 mt-2" />
-            <p className='mt-1'>{visitors}</p>
+            <p className='mt-1'>{viewLoading ? infoLoader : visitors}</p>
           </div>
         </div>
 
