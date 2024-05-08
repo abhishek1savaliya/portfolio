@@ -41,7 +41,7 @@ export async function GET() {
             { new: true }
         );
 
-        return NextResponse.json({ totalVisitor: Math.floor(data.day / 2) });
+        return NextResponse.json({ totalVisitor: data.day });
 
     } catch (err) {
         console.error(err);
