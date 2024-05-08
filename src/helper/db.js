@@ -4,7 +4,6 @@ export const connectDb = async () => {
     try {
         await mongoose.connect(process.env.MONGO_DB_URL, {
             useNewUrlParser: true,
-            useUnifiedTopology: true,
         });
         console.log("db Connected");
     } catch (error) {
@@ -12,3 +11,4 @@ export const connectDb = async () => {
         console.error(error);
     }
 };
+
