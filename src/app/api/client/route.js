@@ -16,36 +16,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export async function POST(req, res) {
-    try {
-
-        let transformedData = {};
-
-        const data = await req.formData();
-
-        for (let [key, value] of data.entries()) {
-            transformedData[key] = value;
-        }
-
-        if ('doc' in transformedData && !(transformedData.doc.size === 0) && transformedData.doc !== 'null') {
-            const fileUrl = await fileUpload(data.get('doc'))
-            transformedData['doc'] = fileUrl
-        }
-        else {
-            transformedData['doc'] = '';
-        }
-
-        await connectDb();
-
-        const clientData = new client(transformedData)
-        await clientData.save()
-
-        return NextResponse.json(clientData, { status: 201 });
-    } catch (err) {
-        return NextResponse.json({ message: 'Error in add user' }, { status: 401 });
-    }
-}
-
 const fileUpload = async (file) => {
     const fileName = file.name.replace(/\s+/g, '');
 
@@ -66,6 +36,36 @@ const fileUpload = async (file) => {
         console.error("Error uploading file:", error);
     }
 }
+
+export async function POST(req, res) {
+    try {
+        await connectDb();
+        
+        let transformedData = {};
+
+        const data = await req.formData();
+
+        for (let [key, value] of data.entries()) {
+            transformedData[key] = value;
+        }
+
+        if ('doc' in transformedData && !(transformedData.doc.size === 0) && transformedData.doc !== 'null') {
+            const fileUrl = await fileUpload(data.get('doc'))
+            transformedData['doc'] = fileUrl
+        }
+        else {
+            transformedData['doc'] = '';
+        }
+
+        const clientData = new client(transformedData)
+        await clientData.save()
+
+        return NextResponse.json(clientData, { status: 201 });
+    } catch (err) {
+        return NextResponse.json({ message: 'Error in add user' }, { status: 401 });
+    }
+}
+
 
 export async function GET() {
     try {
