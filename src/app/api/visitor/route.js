@@ -22,8 +22,8 @@ export async function GET() {
             { $inc: { day: 1 } },
             { new: true, upsert: true, setDefaultsOnInsert: true }
         );
-
-        return NextResponse.json({ totalVisitor: visitorForSpecificDate.day });
+        const visit = await Visitor.findOne();
+        return NextResponse.json({ totalVisitor: visit.day });
 
     } catch (err) {
         console.error(err);
