@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,14 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    const fetchVisitorData = async () => {
+      await fetchData();
+    };
+    fetchVisitorData();
+
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
   const handleMessage = () => {
