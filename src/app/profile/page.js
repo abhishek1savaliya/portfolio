@@ -1,5 +1,5 @@
 'use client'
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import Head from 'next/head';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
@@ -29,8 +29,7 @@ const Profile = () => {
     }
   };
 
-  useLayoutEffect(() => {
-    console.log('useLayoutEffect called');
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -57,11 +56,11 @@ const Profile = () => {
 
       <div className="bg-lime-200 p-4 md:p-6 rounded-lg shadow-md max-w-5xl mx-auto">
 
-        <div class="flex">
-          <div class="text-center items-center flex-1">
-            <img src="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg" alt="Abhishek Savaliya" class="w-32 h-32 rounded-full border-4 border-blue-600 mx-auto" />
+        <div className="flex">
+          <div className="text-center items-center flex-1">
+            <img src="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg" alt="Abhishek Savaliya" className="w-32 h-32 rounded-full border-4 border-blue-600 mx-auto" />
           </div>
-          <div class="inline-flex">
+          <div className="inline-flex">
             <FaEye className="mr-2 mt-2" />
             <p className='mt-1'>{visitors}</p>
           </div>
@@ -122,19 +121,19 @@ const Profile = () => {
         {/* New */}
         <h2 className="text-2xl font-semibold mt-6 text-purple-700 mb-4">EDUCATION HISTORY</h2>
         <div className='mb-3'>
-          <p class="text-blue-800">Bachelor Of Engineering, Computer Engineering</p>
-          <p class="text-blue-800">Shri Swami Atmanand Saraswati Institute Of Technology - (GTU)</p>
-          <p class="text-blue-800">2020 - Pursuing 4th Year</p>
+          <p className="text-blue-800">Bachelor Of Engineering, Computer Engineering</p>
+          <p className="text-blue-800">Shri Swami Atmanand Saraswati Institute Of Technology - (GTU)</p>
+          <p className="text-blue-800">2020 - Pursuing 4th Year</p>
         </div>
 
         <div className='mb-3'>
-          <p class="text-green-800">Higher Secondary Certificate (HSC)</p>
-          <p class="text-green-800">P.P. Savani Vidhya Bhavan(GSEB) 2020</p>
+          <p className="text-green-800">Higher Secondary Certificate (HSC)</p>
+          <p className="text-green-800">P.P. Savani Vidhya Bhavan(GSEB) 2020</p>
         </div>
 
         <div>
-          <p class="text-purple-800">Secondary School Certificate (SSC)</p>
-          <p class="text-purple-800">Ankur Vidhya Vihar (GSEB) 2018</p>
+          <p className="text-purple-800">Secondary School Certificate (SSC)</p>
+          <p className="text-purple-800">Ankur Vidhya Vihar (GSEB) 2018</p>
         </div>
 
 
@@ -177,7 +176,7 @@ const Profile = () => {
                 ariaLabel="tail-spin-loading"
                 radius="1"
                 wrapperStyle={{}}
-                wrapperClass=""
+                wrapperclassName=""
               /></div>) : "Message Me"
             }
 
