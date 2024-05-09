@@ -3,7 +3,7 @@ import Visitor from '@/model/visitor';
 import { NextResponse } from 'next/server';
 import moment from 'moment-timezone';
 
-export async function GET() {
+export async function POST() {
     try {
         const today = moment().tz('Asia/Kolkata');
         const specificDate = moment(today.format('YYYY-MM-DD'), 'YYYY-MM-DD');

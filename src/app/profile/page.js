@@ -18,7 +18,7 @@ const Profile = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/visitor', {
+      const response = await axios.post('/api/visitor', {
         headers: {
           'Content-Type': 'application/json',
         },
