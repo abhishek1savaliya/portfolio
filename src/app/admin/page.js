@@ -54,14 +54,24 @@ const Page = () => {
       <div className="container mx-auto p-6 bg-blue-500 rounded-lg shadow-md ">
         <h1 className="text-3xl font-bold mb-6 text-white">User Data</h1>
 
-        <p className="mb-6 text-white text-xs font-semibold">
-          <span className="mr-4">Total Message Count: <span>{loading ? infoLoader : client.length}</span></span>
-          <span className="mr-4">Total add Operation: <span>{loading ? infoLoader : info.addOps}</span></span>
-          <span className="mr-4">Total Delete Operation: <span>{loading ? infoLoader : info.deleteOps}</span></span>
-          <span className="mr-4">Total Operation: <span>{loading ? infoLoader : info.totalOps}</span></span>
+        <div className="flex justify-between items-center mb-6 text-white text-xs font-semibold">
+          <div>
+            <span className="mr-4">Total Message Count: <span>{loading ? infoLoader : client.length}</span></span>
+            <span className="mr-4">Total add Operation: <span>{loading ? infoLoader : info.addOps}</span></span>
+            <span className="mr-4">Total Delete Operation: <span>{loading ? infoLoader : info.deleteOps}</span></span>
+            <span className="mr-4">Total Operation: <span>{loading ? infoLoader : info.totalOps}</span></span>
+            <span className='mr-4'>Total Visitors: <span>{loading ? infoLoader : info.totalVisitor}</span></span>
+          </div>
+          <div>
+            <button className="bg-blue-400 hover:bg-blue-300 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded">
+              Daywise Visitor
+            </button>
 
-          <span>Total Visitors: <span>{loading ? infoLoader : info.totalVisitor}</span></span>
-        </p>
+          </div>
+        </div>
+
+
+
 
         <div className="overflow-x-auto">
           {

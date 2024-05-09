@@ -5,6 +5,7 @@ import visitor from '@/model/visitor';
 import { NextResponse } from 'next/server';
 const firebase = require('firebase/app')
 const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
+import moment from 'moment';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -92,6 +93,8 @@ export async function GET() {
         const totalVisits = await visitor.aggregate([{ $group: { _id: null, totalVisit: { $sum: "$day" } } }]);
         const totalVisit = totalVisits.length > 0 ? totalVisits[0].totalVisit : 0;
 
+        const dayWiseVisitorData = await dayWiseVisitor()
+
 
         return NextResponse.json({
             data: allClient,
@@ -99,8 +102,9 @@ export async function GET() {
                 addOps: currentInfo ? currentInfo.addOps : 0,
                 deleteOps: currentInfo ? currentInfo.deleteOps : 0,
                 totalOps: (currentInfo ? currentInfo.deleteOps : 0) + (currentInfo ? currentInfo.addOps : 0),
-                totalVisitor: totalVisit
-            }
+                totalVisitor: totalVisit,
+            },
+            dayWiseVisitor: dayWiseVisitorData
         });
 
 
@@ -159,4 +163,53 @@ export async function DELETE(req) {
             message: "Failed to delete user"
         });
     }
+}
+
+const dayWiseVisitor = async () => {
+    const dayWiseVisit = await visitor.find()
+
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    const currentDateO = moment();
+
+    if (dayWiseVisit.length === 0) {
+        return {
+            date: currentDateO.format('YYYY-MM-DD'),
+            day: dayNames[currentDateO.getDay()],
+            visitor: 0
+        }
+    }
+
+    if (dayWiseVisit.length === 1) {
+        const date = moment(dayWiseVisit[0].createdAt);
+        return {
+            date: date.format('YYYY-MM-DD'),
+            day: dayNames[date.day()],
+            visitor: dayWiseVisit[0].day
+        };
+    }
+    const startDate = moment(dayWiseVisit[0].createdAt);
+
+    const dateRange = [];
+    let currentDate = moment(startDate);
+    while (currentDate.isSameOrBefore(currentDateO, 'day')) {
+        dateRange.push(moment(currentDate));
+        currentDate.add(1, 'day');
+    }
+
+    const mappedData = dateRange.map(date => {
+        const formattedDate = date.format('DD/MM/YYYY');
+        const dayIndex = date.day();
+        const day = dayNames[dayIndex];
+        const matchingVisit = dayWiseVisit.find(item => moment(item.createdAt).isSame(date, 'day'));
+        const visitorCount = matchingVisit ? matchingVisit.day : 0;
+        return {
+            date: formattedDate,
+            day: day,
+            visitor: visitorCount
+        };
+    });
+
+    return mappedData
+
 }
