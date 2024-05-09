@@ -12,17 +12,13 @@ export async function POST() {
 
         await connectDb();
 
-        const visitorForSpecificDate = await Visitor.findOneAndUpdate(
-            {
-                createdAt: {
-                    $gte: startOfSpecificDate.toDate(),
-                    $lte: endOfSpecificDate.toDate()
-                }
-            },
+        const totalVisit = (await Visitor.findOneAndUpdate(
+            { createdAt: { $gte: startOfSpecificDate.toDate(), $lte: endOfSpecificDate.toDate() } },
             { $inc: { day: 1 } },
             { new: true, upsert: true, setDefaultsOnInsert: true }
-        );
-        return NextResponse.json({ totalVisitor: visitorForSpecificDate.day });
+        ).then(() => Visitor.aggregate([{ $group: { _id: null, totalVisit: { $sum: "$day" } } }])).then(result => (result.length > 0 ? result[0].totalVisit : 0)));
+        
+        return NextResponse.json({ totalVisitor: totalVisit });
 
     } catch (err) {
         console.error(err);
