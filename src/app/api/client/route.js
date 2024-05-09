@@ -1,6 +1,7 @@
 import { connectDb } from '@/helper/db';
 import client from '@/model/client';
 import information from '@/model/information';
+import visitor from '@/model/visitor';
 import { NextResponse } from 'next/server';
 const firebase = require('firebase/app')
 const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
@@ -86,9 +87,11 @@ export async function GET() {
         await connectDb();
         const allClient = await client.find().sort({ createdAt: -1 })
 
-        const totalCount = await client.countDocuments({});
-
         const currentInfo = await information.findOne();
+
+        const totalVisits = await visitor.aggregate([{ $group: { _id: null, totalVisit: { $sum: "$day" } } }]);
+        const totalVisit = totalVisits.length > 0 ? totalVisits[0].totalVisit : 0;
+
 
         return NextResponse.json({
             data: allClient,
@@ -96,6 +99,7 @@ export async function GET() {
                 addOps: currentInfo ? currentInfo.addOps : 0,
                 deleteOps: currentInfo ? currentInfo.deleteOps : 0,
                 totalOps: (currentInfo ? currentInfo.deleteOps : 0) + (currentInfo ? currentInfo.addOps : 0),
+                totalVisitor: totalVisit
             }
         });
 

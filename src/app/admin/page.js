@@ -58,7 +58,9 @@ const Page = () => {
           <span className="mr-4">Total Message Count: <span>{loading ? infoLoader : client.length}</span></span>
           <span className="mr-4">Total add Operation: <span>{loading ? infoLoader : info.addOps}</span></span>
           <span className="mr-4">Total Delete Operation: <span>{loading ? infoLoader : info.deleteOps}</span></span>
-          <span>Total Operation: <span>{loading ? infoLoader : info.totalOps}</span></span>
+          <span className="mr-4">Total Operation: <span>{loading ? infoLoader : info.totalOps}</span></span>
+
+          <span>Total Visitors: <span>{loading ? infoLoader : info.totalVisitor}</span></span>
         </p>
 
         <div className="overflow-x-auto">
