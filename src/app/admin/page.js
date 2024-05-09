@@ -1,10 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Bars } from 'react-loader-spinner';
+import * as XLSX from 'xlsx';
 import moment from 'moment';
+import { Bars } from 'react-loader-spinner';
 import { ClipLoader } from "react-spinners";
-
 
 const Page = () => {
   const [client, setClient] = useState([]);
@@ -14,6 +14,8 @@ const Page = () => {
     totalOps: 0,
   })
   const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupData, setPopupData] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -25,6 +27,7 @@ const Page = () => {
       if (response) {
         setClient(response.data.data);
         setInfo(response.data.OpsInfo)
+        setPopupData(response.data.dayWiseVisitor)
         setLoading(false);
       }
     } catch (err) {
@@ -36,6 +39,9 @@ const Page = () => {
     fetchData();
   }, []);
 
+  const handleDaywiseVisitorClick = () => {
+    setShowPopup(true);
+  }
 
   const deleteClient = async (id) => {
 
@@ -48,6 +54,26 @@ const Page = () => {
     }
   }
   const infoLoader = (<>&nbsp;<ClipLoader color="#ffffff" size={14} /></>)
+
+  const handleExportData = () => {
+    if (popupData.length === 0) {
+      alert("No data to export");
+      return;
+    }
+    const dataArray = popupData.map(item => [item.date, item.day, item.visitor]);
+
+    const worksheet = XLSX.utils.aoa_to_sheet([['Date', 'Day', 'Visitor Count'], ...dataArray]);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+    const wbDataUrl = XLSX.write(workbook, { bookType: 'xlsx', type: 'base64' });
+
+    const a = document.createElement('a');
+    a.href = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${wbDataUrl}`;
+    a.download = 'data.xlsx';
+    a.click();
+  };
 
   return (
     <div className='bg-green-500 min-h-screen p-4 md:p-8'>
@@ -63,16 +89,12 @@ const Page = () => {
             <span className='mr-4'>Total Visitors: <span>{loading ? infoLoader : info.totalVisitor}</span></span>
           </div>
           <div>
-            <button className="bg-blue-400 hover:bg-blue-300 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded">
+            <button className="bg-blue-400 hover:bg-blue-300 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 border-b-2 border-blue-700 hover:border-blue-500 rounded" onClick={handleDaywiseVisitorClick}>
               Daywise Visitor
             </button>
 
           </div>
         </div>
-
-
-
-
         <div className="overflow-x-auto">
           {
             loading ? (<div className='flex items-center justify-center'>
@@ -139,6 +161,38 @@ const Page = () => {
           }
         </div>
       </div>
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-75">
+          <div className="bg-white rounded-lg p-8 max-w-lg">
+            <h2 className="text-xl font-bold mb-4">Day-wise Visitor Information</h2>
+            <table className="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-4">Date</th>
+                  <th className="p-4">Day</th>
+                  <th className="p-4">Visitor Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {popupData.map((data, index) => (
+                  <tr key={index} className="border-t border-gray-300">
+                    <td className="p-4">{data.date}</td>
+                    <td className="p-4">{data.day}</td>
+                    <td className="p-4 flex justify-center">{data.visitor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <button className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600" onClick={() => setShowPopup(false)}>Close</button>
+            <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-1 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-2" onClick={handleExportData}>
+              Export Data
+            </button>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
