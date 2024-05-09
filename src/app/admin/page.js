@@ -54,25 +54,33 @@ const Page = () => {
     }
   }
   const infoLoader = (<>&nbsp;<ClipLoader color="#ffffff" size={14} /></>)
-
-  const handleExportData = () => {
-    if (popupData.length === 0) {
+  const handleExport = (dataArray, filename) => {
+    if (dataArray.length === 0) {
       alert("No data to export");
       return;
     }
-    const dataArray = popupData.map(item => [item.date, item.day, item.visitor]);
-
-    const worksheet = XLSX.utils.aoa_to_sheet([['Date', 'Day', 'Visitor Count'], ...dataArray]);
-
+  
+    const worksheet = XLSX.utils.aoa_to_sheet(dataArray);
+  
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+  
     const wbDataUrl = XLSX.write(workbook, { bookType: 'xlsx', type: 'base64' });
-
+  
     const a = document.createElement('a');
     a.href = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${wbDataUrl}`;
-    a.download = 'data.xlsx';
+    a.download = filename;
     a.click();
+  };
+  
+  const handleExportDataOfUser = () => {
+    const dataArray = client.map(item => [item.fName, item.lName, item.email, item.message, item.doc, item.createdAt]);
+    handleExport([['First Name', 'Last Name', 'Email', 'Message', 'Document', 'Created At'], ...dataArray], 'client_data.xlsx');
+  };
+  
+  const handleExportData = () => {
+    const dataArray = popupData.map(item => [item.date, item.day, item.visitor]);
+    handleExport([['Date', 'Day', 'Visitor Count'], ...dataArray], 'data.xlsx');
   };
 
   return (
@@ -160,6 +168,15 @@ const Page = () => {
             </table>)
           }
         </div>
+
+        <div className='flex justify-end'>
+
+          <button className="bg-green-500 mt-2 hover:bg-green-400 text-white font-bold text-xs py-1 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-2" onClick={handleExportDataOfUser}>
+            Export
+          </button>
+
+        </div>
+
       </div>
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-75">
