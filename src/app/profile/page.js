@@ -18,19 +18,19 @@ const Profile = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.post('/api/visitor', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await axios.get("https://api.ipify.org/?format=json");
+      const ip = res.data.ip;
+
+      const response = await axios.post('/api/visitor', { ip }, { headers: { 'Content-Type': 'application/json' } });
       if (response) {
         setVisitors(response.data.totalVisitor);
-        setViewLoading(false)
+        setViewLoading(false);
       }
     } catch (err) {
-      setVisitors(0)
+      setVisitors(0);
     }
   };
+
 
   useEffect(() => {
     fetchData();

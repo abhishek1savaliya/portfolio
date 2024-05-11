@@ -174,7 +174,6 @@ const Page = () => {
           <button className="bg-green-500 mt-2 hover:bg-green-400 text-white font-bold text-xs py-1 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-2" onClick={handleExportDataOfUser}>
             Export
           </button>
-
         </div>
 
       </div>
