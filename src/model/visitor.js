@@ -9,11 +9,9 @@ const visitorSchema = new mongoose.Schema(
         userDetails: [{
             ipAddress: {
                 type: String,
-                required: true
             },
             time: {
                 type: Date,
-                required: true
             },
             location: {
                 country: String,
@@ -26,23 +24,18 @@ const visitorSchema = new mongoose.Schema(
             as: {
                 asn: {
                     type: Number,
-                    required: true
                 },
                 name: {
                     type: String,
-                    required: true
                 },
                 route: {
                     type: String,
-                    required: true
                 },
                 domain: {
                     type: String,
-                    required: true
                 },
                 type: {
                     type: String,
-                    required: true
                 }
             }
         }]

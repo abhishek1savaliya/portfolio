@@ -82,7 +82,6 @@ export async function POST(req, res) {
     }
 }
 
-
 export async function GET() {
     try {
         await connectDb();
@@ -94,7 +93,6 @@ export async function GET() {
         const totalVisit = totalVisits.length > 0 ? totalVisits[0].totalVisit : 0;
 
         const dayWiseVisitorData = await dayWiseVisitor()
-
 
         return NextResponse.json({
             data: allClient,
@@ -175,41 +173,45 @@ const dayWiseVisitor = async () => {
     if (dayWiseVisit.length === 0) {
         return {
             date: currentDateO.format('YYYY-MM-DD'),
-            day: dayNames[currentDateO.getDay()],
-            visitor: 0
-        }
+            day: dayNames[currentDateO.day()],
+            visitor: 0,
+            visitorDetail: []
+        };
     }
 
     if (dayWiseVisit.length === 1) {
         const date = moment(dayWiseVisit[0].createdAt);
+        const visitorDetail = dayWiseVisit[0].userDetails || [];
         return {
             date: date.format('YYYY-MM-DD'),
             day: dayNames[date.day()],
-            visitor: dayWiseVisit[0].day
+            visitor: dayWiseVisit[0].day,
+            visitorDetail: visitorDetail
         };
     }
-    const startDate = moment(dayWiseVisit[0].createdAt);
 
+    const startDate = moment(dayWiseVisit[0].createdAt);
     const dateRange = [];
     let currentDate = moment(startDate);
+
     while (currentDate.isSameOrBefore(currentDateO, 'day')) {
         dateRange.push(moment(currentDate));
         currentDate.add(1, 'day');
     }
 
     const mappedData = dateRange.map(date => {
-        const formattedDate = date.format('DD/MM/YYYY');
+        const formattedDate = date.format('YYYY-MM-DD');
         const dayIndex = date.day();
         const day = dayNames[dayIndex];
         const matchingVisit = dayWiseVisit.find(item => moment(item.createdAt).isSame(date, 'day'));
         const visitorCount = matchingVisit ? matchingVisit.day : 0;
+        const visitorDetail = matchingVisit ? matchingVisit.userDetails : [];
         return {
             date: formattedDate,
             day: day,
-            visitor: visitorCount
+            visitor: visitorCount,
+            visitorDetail: visitorDetail
         };
     });
-
     return mappedData
-
 }

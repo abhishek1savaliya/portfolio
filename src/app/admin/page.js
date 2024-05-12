@@ -5,6 +5,8 @@ import * as XLSX from 'xlsx';
 import moment from 'moment';
 import { Bars } from 'react-loader-spinner';
 import { ClipLoader } from "react-spinners";
+import { FaEye } from "react-icons/fa";
+import User from './user/page'
 
 const Page = () => {
   const [client, setClient] = useState([]);
@@ -16,6 +18,9 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
   const [popupData, setPopupData] = useState([]);
+  const [showUserDetail, setShowUserDetail] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
+  const [allUser, setAllUser] = useState([])
 
   const fetchData = async () => {
     try {
@@ -59,29 +64,43 @@ const Page = () => {
       alert("No data to export");
       return;
     }
-  
+
     const worksheet = XLSX.utils.aoa_to_sheet(dataArray);
-  
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-  
+
     const wbDataUrl = XLSX.write(workbook, { bookType: 'xlsx', type: 'base64' });
-  
+
     const a = document.createElement('a');
     a.href = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${wbDataUrl}`;
     a.download = filename;
     a.click();
   };
-  
+
   const handleExportDataOfUser = () => {
     const dataArray = client.map(item => [item.fName, item.lName, item.email, item.message, item.doc, item.createdAt]);
     handleExport([['First Name', 'Last Name', 'Email', 'Message', 'Document', 'Created At'], ...dataArray], 'client_data.xlsx');
   };
-  
+
   const handleExportData = () => {
     const dataArray = popupData.map(item => [item.date, item.day, item.visitor]);
     handleExport([['Date', 'Day', 'Visitor Count'], ...dataArray], 'data.xlsx');
   };
+
+  const openUserDetail = () => {
+    setShowUserDetail(true);
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const oneDayAllUserDetails = (allUser) => {
+    setAllUser(allUser)
+  }
+
 
   return (
     <div className='bg-green-500 min-h-screen p-4 md:p-8'>
@@ -180,32 +199,50 @@ const Page = () => {
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-75">
           <div className="bg-white rounded-lg p-8 max-w-lg">
-            <h2 className="text-xl font-bold mb-4">Day-wise Visitor Information</h2>
+            <h2 className="text-xl font-bold mb-4 bg-blue-500 text-white py-2 px-4 rounded">Day-wise Visitor Information</h2>
+
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="p-4">Date</th>
                   <th className="p-4">Day</th>
                   <th className="p-4">Visitor Count</th>
+                  <th className='p-4'>User Details</th>
                 </tr>
               </thead>
               <tbody>
                 {popupData.map((data, index) => (
-                  <tr key={index} className="border-t border-gray-300">
+                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                     <td className="p-4">{data.date}</td>
                     <td className="p-4">{data.day}</td>
-                    <td className="p-4 flex justify-center">{data.visitor}</td>
+                    <td className="p-4 align-middle justify-center">{data.visitor}</td>
+                    <td className="p-4 flex justify-center"><FaEye className='cursor-pointer' onClick={() => {
+                      openUserDetail();
+                      oneDayAllUserDetails(data.visitorDetail);
+                    }} />
+                    </td>
+
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            <button className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600" onClick={() => setShowPopup(false)}>Close</button>
-            <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-1 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-2" onClick={handleExportData}>
-              Export Data
-            </button>
-
+            <div className="flex justify-end mt-4">
+              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600" onClick={() => setShowPopup(false)}>Close</button>
+              <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-2" onClick={handleExportData}>
+                Export Data
+              </button>
+            </div>
           </div>
+        </div>
+      )}
+
+      {isPopupOpen && showUserDetail && (
+        <div className="popup-box">
+          <div>
+            <User onClose={closePopup} usersDetails={allUser} />
+          </div>
+
         </div>
       )}
 
