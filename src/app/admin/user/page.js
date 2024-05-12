@@ -5,46 +5,6 @@ import { FaEye } from 'react-icons/fa';
 const Page = ({ onClose, usersDetails }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
-    console.log(usersDetails)
-
-    const dataArray = [
-        {
-            ip: '192.168.1.1',
-            location: {
-                country: 'United States',
-                region: 'California',
-                city: 'San Francisco',
-                lat: '37.7749',
-                lng: '-122.4194'
-            },
-            as: {
-                asn: 'AS12345',
-                name: 'Example ASN',
-                route: '123.456.0.0/16',
-                domain: 'example.com',
-                type: 'Enterprise'
-            },
-            isp: 'Example ISP'
-        },
-        {
-            ip: '192.168.1.2',
-            location: {
-                country: 'Canada',
-                region: 'Ontario',
-                city: 'Toronto',
-                lat: '43.65107',
-                lng: '-79.347015'
-            },
-            as: {
-                asn: 'AS54321',
-                name: 'Another ASN',
-                route: '789.123.0.0/16',
-                domain: 'anotherexample.com',
-                type: 'Provider'
-            },
-            isp: 'Another ISP'
-        }
-    ];
 
     const openPopup = (user) => {
         setSelectedUser(user);
