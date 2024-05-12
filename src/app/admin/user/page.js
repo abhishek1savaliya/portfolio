@@ -97,10 +97,10 @@ const Page = ({ onClose, usersDetails }) => {
             <div className="relative p-8 bg-white rounded-lg">
                 <h2 className="text-2xl font-bold text-green-600 mb-4">All User Information:</h2>
 
-                {usersDetails.length === 0 ? (
+                {usersDetails && usersDetails.length === 0 ? (
                     <div className="text-gray-700">No users found</div>
                 ) : (
-                    usersDetails.map((data, index) => (
+                    usersDetails && usersDetails.map((data, index) => (
                         <div key={index} className="mb-4">
                             <p className="flex items-center">
                                 <span className="mr-2 text-blue-500">{data.ipAddress}</span>
