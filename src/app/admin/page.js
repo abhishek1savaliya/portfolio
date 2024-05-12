@@ -101,6 +101,8 @@ const Page = () => {
     setAllUser(allUser)
   }
 
+  console.log(popupData)
+
 
   return (
     <div className='bg-green-500 min-h-screen p-4 md:p-8'>

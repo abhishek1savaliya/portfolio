@@ -171,23 +171,23 @@ const dayWiseVisitor = async () => {
     const currentDateO = moment();
 
     if (dayWiseVisit.length === 0) {
-        return {
+        return [{
             date: currentDateO.format('YYYY-MM-DD'),
             day: dayNames[currentDateO.day()],
             visitor: 0,
             visitorDetail: []
-        };
+        }];
     }
 
     if (dayWiseVisit.length === 1) {
         const date = moment(dayWiseVisit[0].createdAt);
         const visitorDetail = dayWiseVisit[0].userDetails || [];
-        return {
+        return [{
             date: date.format('YYYY-MM-DD'),
             day: dayNames[date.day()],
             visitor: dayWiseVisit[0].day,
             visitorDetail: visitorDetail
-        };
+        }];
     }
 
     const startDate = moment(dayWiseVisit[0].createdAt);
