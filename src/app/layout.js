@@ -16,10 +16,10 @@ export default function RootLayout({ children }) {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <meta property="og:title" content={metadata.title} />
-        <meta property="og:description" content="Seeking for an internship/job opportunity with a company that offers a positive atmosphere to implement new ideas or technological skills." />
+        <meta property="og:description" content="Seeking for an internship/job opportunity with a company that offers a positive atmosphere to implement new ideas or technological skills and to get admission in top ranking university" />
         <meta property="og:image" content="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg" />
-        <meta property="og:url" content="https://yourwebsite.com/profile" />
-        <link rel="canonical" href="https://yourwebsite.com/profile" />
+        <meta property="og:url" content="https://www.abhishekprofile.online" />
+        <link rel="canonical" href="https://www.youtube.com/@SriKrsnaBhajananvita" />
       </Head>
       <body className={inter.className}>{children}</body>
     </html>
