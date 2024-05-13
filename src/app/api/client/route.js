@@ -20,11 +20,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const fileUpload = async (file) => {
+    
     const fileName = file.name.replace(/\s+/g, '');
-
-    const currentDate = new Date().toISOString().replace(/[-T:\.Z]/g, '');
+    const currentDate = Date.now();
     const extension = fileName.split('.').pop();
-
     const newFileName = `${fileName.split('.').slice(0, -1).join('_')}_${currentDate}.${extension}`;
 
     const storage = getStorage();
@@ -42,8 +41,7 @@ const fileUpload = async (file) => {
 
 export async function POST(req, res) {
     try {
-        await connectDb();
-
+       
         let transformedData = {};
 
         const data = await req.formData();
@@ -59,6 +57,8 @@ export async function POST(req, res) {
         else {
             transformedData['doc'] = '';
         }
+        
+        await connectDb();
 
         const clientData = new client(transformedData)
         await clientData.save()

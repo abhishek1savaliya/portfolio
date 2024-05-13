@@ -8,6 +8,7 @@ import { ClipLoader } from "react-spinners";
 import { FaEye } from "react-icons/fa";
 import User from './user/page'
 
+
 const Page = () => {
   const [client, setClient] = useState([]);
   const [info, setInfo] = useState({
@@ -100,9 +101,6 @@ const Page = () => {
   const oneDayAllUserDetails = (allUser) => {
     setAllUser(allUser)
   }
-
-  console.log(popupData)
-
 
   return (
     <div className='bg-green-500 min-h-screen p-4 md:p-8'>
@@ -241,7 +239,7 @@ const Page = () => {
 
       {isPopupOpen && showUserDetail && (
         <div className="popup-box">
-          <div>
+          <div className='mt-32'>
             <User onClose={closePopup} usersDetails={allUser} />
           </div>
 

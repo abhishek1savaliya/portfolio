@@ -49,7 +49,7 @@ const Profile = () => {
   return (
     <div className="bg-green-500 min-h-screen p-4 md:p-8">
       <Head>
-        <title className="text-purple-600">Abhishek Savaliya - MERN Stack Developer</title>
+        <title>Abhishek Savaliya - MERN Stack Developer</title> 
         <meta name="description" content="Abhishek Savaliya's profile as a MERN Stack Developer from Surat, Gujarat." />
         <meta property="og:title" content="Abhishek Savaliya - MERN Stack Developer" />
         <meta property="og:description" content="Seeking for an internship/job opportunity with a company that offers a positive atmosphere to implement new ideas or technological skills." />
