@@ -1,6 +1,8 @@
 'use client'
 import React, { useState } from 'react';
 import { FaEye } from 'react-icons/fa';
+import moment from 'moment-timezone';
+moment().tz('Asia/Kolkata')
 
 const Page = ({ onClose, usersDetails }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -27,7 +29,7 @@ const Page = ({ onClose, usersDetails }) => {
                                 <h3 className="font-bold mb-2">User Details:</h3>
                                 <p>
                                     <span className="font-bold text-red-500">Ip:</span> {selectedUser.ipAddress}<br />
-                                    <span className="font-bold text-blue-500">Time:</span> {selectedUser.time}<br />
+                                    <span className="font-bold text-blue-500">Time:</span> {moment(selectedUser.time).format('DD/MM/YYYY hh:mm:ss A')}<br />
                                     <span className="font-bold text-green-500">Country:</span> {selectedUser.location.country}<br />
                                     <span className="font-bold text-yellow-500">Region:</span> {selectedUser.location.region}<br />
                                     <span className="font-bold text-purple-500">City:</span> {selectedUser.location.city}<br />
