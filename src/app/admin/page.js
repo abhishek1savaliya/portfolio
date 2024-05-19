@@ -197,45 +197,57 @@ const Page = () => {
 
       </div>
       {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-75">
-          <div className="bg-white rounded-lg p-8 max-w-lg">
-            <h2 className="text-xl font-bold mb-4 bg-blue-500 text-white py-2 px-4 rounded">Day-wise Visitor Information</h2>
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-75">
+    <div className="bg-white rounded-lg p-8 max-w-lg max-h-screen overflow-y-auto">
+      <h2 className="text-xl font-bold mb-4 bg-blue-500 text-white py-2 px-4 rounded">Day-wise Visitor Information</h2>
 
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="p-4">Date</th>
-                  <th className="p-4">Day</th>
-                  <th className="p-4">Visitor Count</th>
-                  <th className='p-4'>User Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                {popupData.map((data, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                    <td className="p-4">{data.date}</td>
-                    <td className="p-4">{data.day}</td>
-                    <td className="p-4 align-middle justify-center">{data.visitor}</td>
-                    <td className="p-4 flex justify-center"><FaEye className='cursor-pointer' onClick={() => {
-                      openUserDetail();
-                      oneDayAllUserDetails(data.visitorDetail);
-                    }} />
-                    </td>
+      <table className="w-full border-collapse border border-gray-300">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="p-4">Date</th>
+            <th className="p-4">Day</th>
+            <th className="p-4">Visitor Count</th>
+            <th className="p-4">User Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {popupData.map((data, index) => (
+            <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+              <td className="p-4">{data.date}</td>
+              <td className="p-4">{data.day}</td>
+              <td className="p-4 align-middle justify-center">{data.visitor}</td>
+              <td className="p-4 flex justify-center">
+                <FaEye
+                  className="cursor-pointer"
+                  onClick={() => {
+                    openUserDetail();
+                    oneDayAllUserDetails(data.visitorDetail);
+                  }}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      <div className="flex justify-end mt-4">
+        <button
+          className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+          onClick={() => setShowPopup(false)}
+        >
+          Close
+        </button>
+        <button
+          className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-2"
+          onClick={handleExportData}
+        >
+          Export Data
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
-            <div className="flex justify-end mt-4">
-              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600" onClick={() => setShowPopup(false)}>Close</button>
-              <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded ml-2" onClick={handleExportData}>
-                Export Data
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {isPopupOpen && showUserDetail && (
         <div className="popup-box">
