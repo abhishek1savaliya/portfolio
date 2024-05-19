@@ -159,14 +159,14 @@ const Profile = () => {
 
         <h2 className="text-2xl font-semibold mt-6 text-purple-600 mb-4">PROJECTS</h2>
         <ul className="list-disc pl-5 text-green-600">
-          <a href="https://abhishek1savaliya.github.io/react-textutil" target='_blank'>
-            <li>Problem Solving: Word Counter (Frontend)</li></a>
 
-          <a href="https://the-rickand-morty.vercel.app/" target='_blank'>
-            <li>The Rick and Morty (Frontend)</li></a>
+          <li>Problem Solving: Word Counter (Frontend) <a href="https://abhishek1savaliya.github.io/react-textutil" target='_blank'> &#128279;</a> </li>
 
-          <a href="https://frshfrontend.vercel.app" target="_blank" >
-            <li>Note App (Full Stack)</li></a>
+
+          <li>The Rick and Morty (Frontend) <a href="https://the-rickand-morty.vercel.app/" target='_blank'> &#128279;</a></li>
+
+
+          <li>Note App (Full Stack)    <a href="https://frshfrontend.vercel.app" target="_blank" >&#128279;  </a> </li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-6 text-red-600 mb-4">CERTIFICATION</h2>
