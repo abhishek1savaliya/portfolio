@@ -49,7 +49,7 @@ const Profile = () => {
   return (
     <div className="bg-green-500 min-h-screen p-4 md:p-8">
       <Head>
-        <title>Abhishek Savaliya - MERN Stack Developer</title> 
+        <title>Abhishek Savaliya - MERN Stack Developer</title>
         <meta name="description" content="Abhishek Savaliya's profile as a MERN Stack Developer from Surat, Gujarat." />
         <meta property="og:title" content="Abhishek Savaliya - MERN Stack Developer" />
         <meta property="og:description" content="Seeking for an internship/job opportunity with a company that offers a positive atmosphere to implement new ideas or technological skills." />
@@ -62,9 +62,15 @@ const Profile = () => {
       <div className="bg-lime-200 p-4 md:p-6 rounded-lg shadow-md max-w-5xl mx-auto">
 
         <div className="flex">
+
           <div className="text-center items-center flex-1">
-            <img src="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg" alt="Abhishek Savaliya" className="w-32 h-32 rounded-full border-4 border-blue-600 mx-auto" />
+            <img
+              src="https://i.ibb.co/rvcNTg4/SAVE-20230812-213425.jpg"
+              alt="Abhishek Savaliya"
+              className="w-32 h-32 rounded-full border-4 border-cyan-400 mx-auto shadow-lg transform hover:scale-105 hover:translate-y-1 transition-all duration-200 ease-in-out"
+            />
           </div>
+
           <div className="inline-flex">
             <FaEye className="mr-2 mt-2" />
             <p className='mt-1'>{viewLoading ? infoLoader : visitors}</p>
@@ -169,23 +175,29 @@ const Profile = () => {
 
         <div className="mt-6 flex justify-center items-center">
           <button
-            className="bg-blue-600  hover:bg-black text-white font-bold py-2 px-4 rounded w-full sm:w-64 md:w-72 lg:w-80 xl:w-96 border-2"
+            className="bg-cyan-500 border-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 border-b-4  hover:border-cyan-900 rounded hover:shadow-2xl transform hover:scale-105 hover:rotate-1 hover:-translate-y-px w-full sm:w-64 md:w-72 lg:w-80 xl:w-96 border-2 transition duration-300 ease-in-out"
             onClick={handleMessage}
           >
-            {
-              loading ? (<div className=' flex justify-center'><TailSpin
-                visible={true}
-                height="35"
-                width="35"
-                color="#ffffff"
-                ariaLabel="tail-spin-loading"
-                radius="1"
-                wrapperStyle={{}}
-                wrapperclassName=""
-              /></div>) : "Message Me"
-            }
-
+            {loading ? (
+              <div className="flex justify-center">
+                <TailSpin
+                  visible={true}
+                  height={35}
+                  width={35}
+                  color="#ffffff"
+                  ariaLabel="tail-spin-loading"
+                  radius={1}
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                />
+              </div>
+            ) : (
+              <>
+                Message Me <span className="ml-1">😊</span>
+              </>
+            )}
           </button>
+
         </div>
 
       </div>
