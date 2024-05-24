@@ -321,11 +321,9 @@ const email = async (email, fName, lName) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log(error)
             return error;
         }
         else {
-            console.log(info.messageId)
             return info.messageId
         }
     });
