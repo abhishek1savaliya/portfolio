@@ -1,11 +1,12 @@
+const firebase = require('firebase/app')
+const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
+const nodemailer = require('nodemailer');
+import moment from 'moment';
 import { connectDb } from '@/helper/db';
 import client from '@/model/client';
 import information from '@/model/information';
 import visitor from '@/model/visitor';
 import { NextResponse } from 'next/server';
-const firebase = require('firebase/app')
-const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage')
-import moment from 'moment';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -20,7 +21,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const fileUpload = async (file) => {
-    
+
     const fileName = file.name.replace(/\s+/g, '');
     const currentDate = Date.now();
     const extension = fileName.split('.').pop();
@@ -41,7 +42,7 @@ const fileUpload = async (file) => {
 
 export async function POST(req, res) {
     try {
-       
+
         let transformedData = {};
 
         const data = await req.formData();
@@ -57,11 +58,13 @@ export async function POST(req, res) {
         else {
             transformedData['doc'] = '';
         }
-        
+
         await connectDb();
 
         const clientData = new client(transformedData)
         await clientData.save()
+
+        await email(clientData.email, clientData.fName, clientData.lName)
 
         const currentInfo = await information.findOne();
 
@@ -214,4 +217,114 @@ const dayWiseVisitor = async () => {
         };
     });
     return mappedData
+}
+
+
+let transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+    }
+});
+
+const email = async (email, fName, lName) => {
+
+    let mailOptions = {
+        from: `"Abhishek Savaliya" <${process.env.SMTP_USER}>`,
+        to: `${email}`,
+        subject: 'Thank You for Contacting Abhishek Savaliya',
+        html: `
+        <!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        color: #333;
+        line-height: 1.6;
+        text-align: left;
+        background-color: #f5f5f5;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 20px; /* Changed margin to place container to the left */
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: left;
+      }
+
+      .header {
+        background-color: #3f51b5;
+        padding: 10px;
+        color: #fff;
+        text-align: left;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .content {
+        padding: 10px;
+      }
+
+      .footer {
+        background-color: #3f51b5;
+        padding: 10px;
+        color: #fff;
+        margin-top: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .signature {
+        margin-top: 20px;
+        font-style: italic;
+        color: #3f51b5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h3>Greetings from Abhishek Savaliya</h3>
+      </div>
+      <div class="content">
+        <p>Hello ${fName} ${lName},</p>
+        <p>
+          Thank you for reaching out to me through my website. I have received
+          your message and appreciate for connecting me.
+        </p>
+        <p>
+          Thanks for giving your valuable time. I will soon reply of your message.
+        </p>
+        <p class="signature">Best regards,<br />Abhishek Savaliya</p>
+      </div>
+      <div class="footer">
+        <p>
+          Copyright &copy; ${new Date().getFullYear()} Abhishek Savaliya. All
+          rights reserved.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+        `
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return error;
+        }
+        else {
+            return info.messageId
+        }
+    });
 }
