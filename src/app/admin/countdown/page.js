@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
@@ -38,7 +39,6 @@ const CountdownPage = () => {
     }, []); 
 
     return (
-
         <div className="bg-gray-50 rounded-lg shadow-lg px-4 py-2">
             <div className="flex flex-col gap-2 items-center justify-between">
                 <span className="text-lg sm:text-sm font-semibold">{countdown}</span>
