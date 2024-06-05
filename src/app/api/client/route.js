@@ -7,6 +7,7 @@ import client from '@/model/client';
 import information from '@/model/information';
 import visitor from '@/model/visitor';
 import { NextResponse } from 'next/server';
+import userLog from '@/model/userLog';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -97,6 +98,8 @@ export async function GET() {
 
         const dayWiseVisitorData = await dayWiseVisitor()
 
+        const userLogDetails = await userLog.find().populate('userId').then(logs => logs.map(log => ({ username: log.userId.id, event: log.event, timestamp: log.timestamp })));
+
         return NextResponse.json({
             data: allClient,
             OpsInfo: {
@@ -105,7 +108,8 @@ export async function GET() {
                 totalOps: (currentInfo ? currentInfo.deleteOps : 0) + (currentInfo ? currentInfo.addOps : 0),
                 totalVisitor: totalVisit,
             },
-            dayWiseVisitor: dayWiseVisitorData
+            dayWiseVisitor: dayWiseVisitorData,
+            userLogDetails: userLogDetails
         });
 
 
