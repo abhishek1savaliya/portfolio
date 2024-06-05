@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import moment from 'moment';
+import { useRouter } from 'next/navigation';
 import { Bars } from 'react-loader-spinner';
 import { ClipLoader } from "react-spinners";
 import { FaEye } from "react-icons/fa";
@@ -10,6 +11,16 @@ import User from './user/page'
 
 
 const Page = () => {
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    }
+  }, []);
+
   const [client, setClient] = useState([]);
   const [info, setInfo] = useState({
     addOps: 0,
@@ -102,10 +113,25 @@ const Page = () => {
     setAllUser(allUser)
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    router.push('/login')
+  }
+
   return (
     <div className='bg-green-500 min-h-screen p-4 md:p-8'>
       <div className="container mx-auto p-6 bg-blue-500 rounded-lg shadow-md ">
-        <h1 className="text-3xl font-bold mb-6 text-white">User Data</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold mb-6 text-white">User Data</h1>
+          <button
+            className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded ml-2"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+
+
 
         <div className="flex justify-between items-center mb-6 text-white text-xs font-semibold">
           <div>
