@@ -2,6 +2,7 @@ import { connectDb } from '@/helper/db';
 import user from '@/model/user';
 import { NextResponse } from 'next/server';
 import { generateToken } from '@/helper/authMiddleware';
+import userLog from '@/model/userLog';
 
 
 // export async function POST(req) {
@@ -40,6 +41,13 @@ export async function POST(req) {
 
         if (foundUser) {
             const token = await generateToken({ id, userType })
+
+            const newLog = new userLog({
+                userId: foundUser._id,
+                event: 'login',
+            });
+
+            await newLog.save()
 
             return NextResponse.json({ message: true, token: token });
         } else {
