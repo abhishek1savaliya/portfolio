@@ -8,6 +8,7 @@ import { Bars } from 'react-loader-spinner';
 import { ClipLoader } from "react-spinners";
 import { FaEye } from "react-icons/fa";
 import User from './user/page'
+import Countdown from './countdown/page'
 
 
 const Page = () => {
@@ -123,8 +124,9 @@ const Page = () => {
       <div className="container mx-auto p-6 bg-blue-500 rounded-lg shadow-md ">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold mb-6 text-white">User Data</h1>
+          <Countdown />
           <button
-            className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded ml-2"
+            className="bg-red-500 hover:bg-red-400 text-white font-bold py-1 px-3 border-b-4 border-red-700 hover:border-red-500 rounded ml-2"
             onClick={handleLogout}
           >
             Logout
