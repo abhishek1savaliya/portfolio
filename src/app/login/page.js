@@ -51,7 +51,7 @@ const Page = () => {
     return (
         <div className="min-h-screen bg-green-500 flex items-center justify-center p-4 md:p-10">
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold text-center text-gray-900">Sign in to your account</h2>
+                <h2 className="text-2xl font-bold text-center text-gray-900">Sign in to admin page</h2>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
