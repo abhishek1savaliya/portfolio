@@ -9,7 +9,7 @@ import { ClipLoader } from "react-spinners";
 import { FaEye } from "react-icons/fa";
 import User from './user/page'
 import Countdown from './countdown/page'
-
+import Login from './login/page'
 
 const Page = () => {
 
@@ -34,6 +34,8 @@ const Page = () => {
   const [showUserDetail, setShowUserDetail] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(true);
   const [allUser, setAllUser] = useState([])
+  const [loginUser, setLoginUser] = useState([])
+  const [loginPopup, setLoginPopup] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -46,6 +48,7 @@ const Page = () => {
         setClient(response.data.data);
         setInfo(response.data.OpsInfo)
         setPopupData(response.data.dayWiseVisitor)
+        setLoginUser(response.data.userLogDetails)
         setLoading(false);
       }
     } catch (err) {
@@ -114,6 +117,10 @@ const Page = () => {
     setAllUser(allUser)
   }
 
+  const handleLoginPopup = () => {
+    setLoginPopup(!loginPopup)
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     router.push('/login')
@@ -125,6 +132,12 @@ const Page = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold mb-6 text-white">User Data</h1>
           <Countdown />
+          <button
+            className="bg-violet-500 hover:bg-violet-400 text-white font-bold py-1 px-3 border-b-4 border-violet-700 hover:border-violet-500 rounded ml-2"
+            onClick={handleLoginPopup}
+          >
+            Login info
+          </button>
           <button
             className="bg-red-500 hover:bg-red-400 text-white font-bold py-1 px-3 border-b-4 border-red-700 hover:border-red-500 rounded ml-2"
             onClick={handleLogout}
@@ -285,6 +298,11 @@ const Page = () => {
 
         </div>
       )}
+      {
+        loginPopup && (
+          <Login loginUser={loginUser} handleLoginPopup={handleLoginPopup} />
+        )
+      }
 
     </div>
   );
