@@ -1,9 +1,7 @@
-// pages/contact.js
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import Head from 'next/head';
 
 const Page = () => {
     const router = useRouter();
@@ -18,28 +16,12 @@ const Page = () => {
 
     const [loading, setLoading] = useState(false);
     const [fileSizeError, setFileSizeError] = useState(null);
-    const [recaptchaToken, setRecaptchaToken] = useState(null);
 
     useEffect(() => {
         if (fileSizeError) {
             setFormData((prevData) => ({ ...prevData, doc: null }));
         }
     }, [fileSizeError]);
-
-    useEffect(() => {
-        const loadRecaptchaScript = () => {
-            const script = document.createElement('script');
-            script.src = 'https://www.google.com/recaptcha/enterprise.js?render=6Led8OYpAAAAAN9GCsw1Aisnld4YBb8hL6_S2Jne';
-            script.async = true;
-            script.defer = true;
-            script.onload = () => {
-                console.log('reCAPTCHA script loaded');
-            };
-            document.head.appendChild(script);
-        };
-
-        loadRecaptchaScript();
-    }, []);
 
     const handleChange = (e) => {
         setFileSizeError(null);
@@ -66,27 +48,11 @@ const Page = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
-        if (window.grecaptcha) {
-            window.grecaptcha.ready(() => {
-                window.grecaptcha.execute('6Led8OYpAAAAAN9GCsw1Aisnld4YBb8hL6_S2Jne', { action: 'submit' }).then(token => {
-                    setRecaptchaToken(token);
-                    submitForm(token);
-                });
-            });
-        } else {
-            alert('reCAPTCHA failed to load.');
-            setLoading(false);
-        }
-    };
-
-    const submitForm = async (token) => {
         try {
             const formDataToSend = new FormData();
             Object.keys(formData).forEach((key) => {
                 formDataToSend.append(key, formData[key]);
             });
-            formDataToSend.append('recaptchaToken', token);
 
             const response = await axios.post('/api/client', formDataToSend, {
                 headers: {
@@ -109,9 +75,6 @@ const Page = () => {
 
     return (
         <div className="bg-green-500 min-h-screen p-4 md:p-8">
-            <Head>
-                <script src="https://www.google.com/recaptcha/enterprise.js?render=6Led8OYpAAAAAN9GCsw1Aisnld4YBb8hL6_S2Jne"></script>
-            </Head>
             <div className="bg-white p-4 md:p-6 rounded-lg shadow-md max-w-5xl mx-auto">
                 <h1 className="text-lg md:text-2xl mb-4 text-center text-gray-800 dark:text-gray-800">Contact Form</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -216,16 +179,13 @@ const Page = () => {
                                 Submitting...
                             </button>
                         ) : (
-                            <>
-                                <div id="recaptcha-container"></div>
-                                <button
-                                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    type="submit"
-                                    disabled={loading}
-                                >
-                                    Send a Message
-                                </button>
-                            </>
+                            <button
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                type="submit"
+                                disabled={loading}
+                            >
+                                Send a Message
+                            </button>
                         )}
                     </div>
                 </form>
