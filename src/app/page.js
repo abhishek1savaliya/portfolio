@@ -20,6 +20,11 @@ export const metadata = {
   ],
   education: [
     {
+      degree: 'Master of Information Technology',
+      institution: 'RMIT University',
+      year: 'Feb 2024 - Dec 2026'
+    },
+    {
       degree: 'Bachelor Of Engineering, Computer Engineering',
       institution: 'Shri Swami Atmanand Saraswati Institute Of Technology - (GTU)',
       year: '2020 - Pursuing 4th Year'
